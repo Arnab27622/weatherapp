@@ -17,33 +17,49 @@ function FeelsLike() {
 
     const feelsLikeText = (feelsLike: number, tempMin: number, tempMax: number) => {
         const avgTemp = (tempMax + tempMin) / 2;
+        const diff = feelsLike - avgTemp;
 
-        if (feelsLike < avgTemp - 5) {
-            return 'Feels significantly colder than actual temperature.';
+        if (diff < -5) {
+            return {
+                text: 'Feels significantly colder than actual temperature.',
+                color: 'text-blue-600 dark:text-blue-400'
+            };
         }
-        if (feelsLike > avgTemp - 5 && feelsLike <= avgTemp + 5) {
-            return 'Feels close to actual temperature.';
+        if (diff >= -5 && diff <= 5) {
+            return {
+                text: 'Feels close to actual temperature.',
+                color: 'text-emerald-600 dark:text-emerald-400'
+            };
         }
-        if (feelsLike > avgTemp + 5) {
-            return "Feels significantly warmer than actual temperature.";
+        if (diff > 5) {
+            return {
+                text: "Feels significantly warmer than actual temperature.",
+                color: 'text-amber-600 dark:text-amber-400'
+            };
         }
 
-        return "Temperature feeling is typical for this range.";
+        return {
+            text: "Temperature feeling is typical for this range.",
+            color: 'text-slate-600 dark:text-slate-400'
+        };
     };
 
-    const feelsLikeDesc = feelsLikeText(feels_like, temp_min, temp_max);
+    const feelsLikeInfo = feelsLikeText(feels_like, temp_min, temp_max);
+    const feelsLikeColor = feelsLikeInfo.color;
 
     return (
         <div className='pt-5 pl-4 h-[10.5rem] border rounded-lg flex flex-col gap-6 md:gap-3 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <div className="top">
-                <h2 className="flex items-center gap-2 font-medium">
-                    {thermometer}Feels Like
+                <h2 className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
+                    {thermometer} Feels Like
                 </h2>
-                <p className="text-2xl pt-4">
+                <p className={`text-2xl pt-4 font-bold ${feelsLikeColor}`}>
                     {kelvinToCelsius(feels_like)}°C
                 </p>
             </div>
-            <p className='pt-3 text-sm'>{feelsLikeDesc}</p>
+            <p className={`pt-3 text-sm ${feelsLikeColor}`}>
+                {feelsLikeInfo.text}
+            </p>
         </div>
     )
 }

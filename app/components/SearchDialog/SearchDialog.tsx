@@ -1,81 +1,209 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button"
+import React, {
+    useState,
+    useEffect,
+    useCallback,
+    ChangeEvent,
+    MouseEvent,
+} from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Command, CommandInput } from "@/components/ui/command";
+import { commandIcon } from "@/app/utils/Icons";
+import { Search, Trash2 } from "lucide-react";
 import {
-    Dialog,
-    DialogTrigger,
-    DialogContent
-} from "@/components/ui/dialog";
-import { commandIcon } from '@/app/utils/Icons';
-import { Command, CommandInput } from '@/components/ui/command';
-import { useGlobalContext, useGlobalContextUpdate } from '@/app/context/globalContext';
+    useGlobalContext,
+    useGlobalContextUpdate,
+} from "@/app/context/globalContext";
+import {
+    useSearchHistory,
+    SearchHistoryItem,
+} from "@/app/hooks/use-search-history";
 
-function SearchDialog() {
-    const { geoCodedList, inputValue, setInputValue, handleInput } = useGlobalContext();
+const SearchDialog: React.FC = () => {
+    const { geoCodedList, inputValue, setInputValue, handleInput } =
+        useGlobalContext();
     const { setActiveCityCoords } = useGlobalContextUpdate();
-    const [hoveredIndex, setHoveredIndex] = useState<number>(0);
-    const [open, setOpen] = useState(false);
+    const { history, addToHistory, removeFromHistory, clearHistory } =
+        useSearchHistory();
 
-    const onCityClick = (lat: number, lon: number) => {
-        setActiveCityCoords([lat, lon]);
-        setOpen(false);
-        setInputValue('');
+    const [hoveredIndex, setHoveredIndex] = useState<number>(0);
+    const [open, setOpen] = useState<boolean>(false);
+
+    useEffect(() => setHoveredIndex(0), [geoCodedList, inputValue]);
+
+    const handleCitySelection = useCallback(
+        (item: {
+            lat: number;
+            lon: number;
+            name: string;
+            country: string;
+            state?: string;
+        }) => {
+            setActiveCityCoords([item.lat, item.lon]);
+            setOpen(false);
+            setInputValue("");
+            addToHistory({
+                query: inputValue,
+                lat: item.lat,
+                lon: item.lon,
+                name: item.name,
+                country: item.country,
+                state: item.state,
+            });
+        },
+        [
+            setActiveCityCoords,
+            setInputValue,
+            addToHistory,
+            inputValue,
+        ]
+    );
+
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => handleInput(e);
+
+    const handleDeleteHistoryItem = (
+        e: MouseEvent<HTMLButtonElement>,
+        id: string
+    ) => {
+        e.stopPropagation();
+        removeFromHistory(id);
     };
 
     return (
-        <div className='search-btn'>
+        <div className="search-btn">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <Button
                         variant="outline"
-                        className="border inline-flex items-center justify-center text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100  ease-in-out duration-200"
+                        className="border inline-flex items-center justify-center text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100 ease-in-out duration-200"
                     >
-                        <p className="text-sm text-muted-foreground">Search Here...</p>
-                        <div className="command dark:bg-[#262626] bg-slate-200  py-[2px] pl-[5px] pr-[7px] rounded-sm ml-[10rem] flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">
+                            Search Here...
+                        </span>
+                        <div className="command dark:bg-[#262626] bg-slate-200 py-[2px] pl-[5px] pr-[7px] rounded-sm ml-[10rem] flex items-center gap-2">
                             {commandIcon}
                             <span className="text-[9px]">F</span>
                         </div>
                     </Button>
                 </DialogTrigger>
 
-                <DialogContent className='p-0'>
-                    <Command className='rounded-lg border shadow-md'>
-                        <CommandInput placeholder='Type a command or search'
+                <DialogContent className="p-0">
+                    <Command className="rounded-lg border shadow-md">
+                        <CommandInput
+                            placeholder="Type a command or search"
                             value={inputValue}
-                            onChangeCapture={e => handleInput(e)}
+                            onChangeCapture={onInputChange}
                         />
-                        <ul className="px-3 pb-2">
-                            <p className='p-2 text-sm text-muted-foreground'>Suggestions</p>
-                            {geoCodedList?.length === 0 || (!geoCodedList && <p>No Results</p>)}
 
-                            {geoCodedList && geoCodedList.map((item: {
-                                name: string;
-                                country: string;
-                                state: string;
-                                lat: number;
-                                lon: number;
-                            }, index: number) => {
-                                const { name, state, country, lat, lon } = item;
-                                return <li key={index} className={`py-3 px-2 text-sm cursor-pointer rounded-sm ${hoveredIndex === index ? "bg-accent" : ""}`}
-                                    onMouseEnter={() => {
-                                        setHoveredIndex(index);
-                                    }}
-                                    onClick={() => {
-                                        onCityClick(
-                                            lat,
-                                            lon
-                                        )
-                                    }}>
-                                    <p className='text-sm'>{name}, {state ? state + ', ' : ''} {country}</p>
-                                </li>;
-                            })}
+                        <ul className="px-3 pb-2">
+                            {inputValue ? (
+                                <>
+                                    <li className="p-2 text-sm text-muted-foreground">
+                                        Suggestions
+                                    </li>
+
+                                    {geoCodedList?.length ? (
+                                        geoCodedList.map((item: {
+                                            name: string;
+                                            country: string;
+                                            state: string;
+                                            lat: number;
+                                            lon: number;
+                                        }, index: number) => {
+                                            const isHovered = hoveredIndex === index;
+                                            return (
+                                                <li
+                                                    key={`${item.name}-${index}`}
+                                                    className={`flex items-center py-3 px-2 text-sm cursor-pointer rounded-sm ${isHovered ? "bg-accent" : ""
+                                                        }`}
+                                                    onMouseEnter={() => setHoveredIndex(index)}
+                                                    onClick={() => handleCitySelection(item)}
+                                                >
+                                                    <Search className="mr-2 h-4 w-4" />
+                                                    <span className="text-sm">
+                                                        {item.name},{" "}
+                                                        {item.state ? `${item.state}, ` : ""}
+                                                        {item.country}
+                                                    </span>
+                                                </li>
+                                            );
+                                        })
+                                    ) : (
+                                        <li className="p-2 text-sm text-muted-foreground">
+                                            No Results
+                                        </li>
+                                    )}
+                                </>
+                            ) : history.length ? (
+                                <>
+                                    <li className="p-2 text-sm text-muted-foreground flex justify-between items-center">
+                                        <span>Recent Searches</span>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-xs text-red-500 hover:text-red-600"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                clearHistory();
+                                            }}
+                                        >
+                                            Clear All
+                                        </Button>
+                                    </li>
+
+                                    {history.map((item, index) => {
+                                        const isHovered = hoveredIndex === index;
+                                        return (
+                                            <li
+                                                key={item.id}
+                                                className={`flex items-center justify-between py-3 px-2 text-sm cursor-pointer rounded-sm group ${isHovered ? "bg-accent" : ""
+                                                    }`}
+                                                onMouseEnter={() => setHoveredIndex(index)}
+                                                onClick={() =>
+                                                    handleCitySelection({
+                                                        lat: item.lat,
+                                                        lon: item.lon,
+                                                        name: item.name,
+                                                        country: item.country,
+                                                        state: item.state,
+                                                    })
+                                                }
+                                            >
+                                                <div className="flex items-center">
+                                                    <Search className="mr-2 h-4 w-4" />
+                                                    <span className="text-sm">
+                                                        {item.name},{" "}
+                                                        {item.state ? `${item.state}, ` : ""}
+                                                        {item.country}
+                                                    </span>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-red-500"
+                                                    onClick={(e) =>
+                                                        handleDeleteHistoryItem(e, item.id)
+                                                    }
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </li>
+                                        );
+                                    })}
+                                </>
+                            ) : (
+                                <li className="p-2 text-sm text-muted-foreground">
+                                    No recent searches
+                                </li>
+                            )}
                         </ul>
                     </Command>
                 </DialogContent>
             </Dialog>
-        </div >
-    )
-}
+        </div>
+    );
+};
 
-export default SearchDialog
+export default SearchDialog;

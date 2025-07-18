@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useGlobalContext } from '../../context/globalContext';
+import { useGlobalContext } from '@/app/context/globalContext';
 import MessageBubble from './MessageBubble';
-import { kelvinToCelsius, unixToTime } from '../../utils/misc';
+import { kelvinToCelsius, unixToTime } from '@/app/utils/misc';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from 'next-themes';
 
 type Message = {
     id: string;
@@ -44,6 +45,8 @@ const ChatBot = () => {
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
 
     const context = useGlobalContext();
     const forecast = context?.forecast as ForecastData | undefined;
@@ -205,11 +208,18 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                         initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                        className="w-full max-w-md bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-gray-700"
+                        className={`w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col border ${isDark
+                            ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700'
+                            : 'bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200'
+                            }`}
                     >
-                        <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-4 flex justify-between items-center">
+                        <div className={`p-4 flex justify-between items-center ${isDark
+                            ? 'bg-gradient-to-r from-blue-700 to-indigo-800'
+                            : 'bg-gradient-to-r from-blue-500 to-indigo-500'
+                            }`}>
                             <div className="flex items-center gap-2">
-                                <div className="bg-blue-500 rounded-full p-1">
+                                <div className={`rounded-full p-1 ${isDark ? 'bg-blue-500' : 'bg-blue-400'
+                                    }`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
                                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                                     </svg>
@@ -236,26 +246,38 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                             </button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto p-4 max-h-[50vh] bg-gradient-to-b from-gray-900 to-gray-900">
+                        <div className={`flex-1 overflow-y-auto p-4 max-h-[50vh] ${isDark
+                            ? 'bg-gradient-to-b from-gray-900 to-gray-900'
+                            : 'bg-gradient-to-b from-slate-50 to-slate-50'
+                            }`}>
                             {messages.length === 0 ? (
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="text-center py-8 text-gray-400"
+                                    className={`text-center py-8 ${isDark ? 'text-gray-400' : 'text-slate-600'}`}
                                 >
-                                    <div className="bg-gray-800 rounded-full p-4 inline-block mb-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div className={`rounded-full p-4 inline-block mb-4 ${isDark ? 'bg-gray-800' : 'bg-slate-100'
+                                        }`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-12 w-12 mx-auto ${isDark ? 'text-blue-400' : 'text-blue-500'
+                                            }`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
-                                    <p className="mt-2 text-lg font-medium">Hi! I'm your weather assistant</p>
-                                    <p className="mt-1 text-gray-500">Ask me anything about the weather!</p>
+                                    <p className={`mt-2 text-lg font-medium ${isDark ? 'text-gray-200' : 'text-slate-800'
+                                        }`}>Hi! I'm your weather assistant</p>
+                                    <p className={`mt-1 ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
+                                        Ask me anything about the weather!
+                                    </p>
                                     <div className="mt-4 flex flex-col items-center">
-                                        <div className="text-xs text-gray-600 bg-gray-800 px-3 py-1.5 rounded-full">
+                                        <div className={`text-xs ${isDark
+                                            ? 'text-gray-600 bg-gray-800'
+                                            : 'text-slate-500 bg-slate-100'
+                                            } px-3 py-1.5 rounded-full`}>
                                             Try: "What should I wear today?"
                                         </div>
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-2">
+                                    <p className={`text-xs mt-2 ${isDark ? 'text-gray-500' : 'text-slate-500'
+                                        }`}>
                                         {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </p>
                                 </motion.div>
@@ -264,6 +286,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                     <MessageBubble
                                         key={message.id}
                                         message={message}
+                                        isDark={isDark}
                                     />
                                 ))
                             )}
@@ -277,6 +300,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                         timestamp: new Date()
                                     }}
                                     isLoading={true}
+                                    isDark={isDark}
                                 />
                             )}
 
@@ -285,7 +309,10 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                 <div className="flex justify-end mb-2">
                                     <button
                                         onClick={handleRetry}
-                                        className="text-xs bg-blue-600 text-white px-3 py-1 rounded-full"
+                                        className={`text-xs px-3 py-1 rounded-full ${isDark
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-blue-500 text-white'
+                                            }`}
                                     >
                                         Try Again
                                     </button>
@@ -295,10 +322,14 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                             <div ref={messagesEndRef} />
                         </div>
 
-                        <div className="p-4 bg-gray-800 border-t border-gray-700">
+                        <div className={`p-4 border-t ${isDark
+                            ? 'bg-gray-800 border-gray-700'
+                            : 'bg-slate-100 border-slate-200'
+                            }`}>
                             {/* Character counter */}
                             {inputValue.length > 250 && (
-                                <div className="text-red-400 text-xs mb-1 text-right">
+                                <div className={`text-xs mb-1 text-right ${isDark ? 'text-red-400' : 'text-red-500'
+                                    }`}>
                                     {inputValue.length}/300 characters
                                 </div>
                             )}
@@ -311,7 +342,10 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                     onChange={(e) => setInputValue(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                                     placeholder="Ask about the weather..."
-                                    className="flex-1 bg-gray-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                                    className={`flex-1 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 transition-all ${isDark
+                                        ? 'bg-gray-700 text-white focus:ring-blue-500'
+                                        : 'bg-white text-slate-800 focus:ring-blue-400 shadow-sm'
+                                        }`}
                                     disabled={isLoading}
                                     maxLength={300}
                                     aria-label="Type your message"
@@ -320,19 +354,27 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                     whileTap={{ scale: 0.95 }}
                                     onClick={handleSendMessage}
                                     disabled={isLoading || !inputValue.trim() || inputValue.length > 300}
-                                    className={`p-3 rounded-xl flex items-center justify-center ${isLoading || !inputValue.trim() || inputValue.length > 300
-                                        ? 'bg-gray-600 text-gray-400'
-                                        : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90'
-                                        } transition-all`}
+                                    className={`p-3 rounded-xl flex items-center justify-center transition-all ${isLoading || !inputValue.trim() || inputValue.length > 300
+                                        ? isDark
+                                            ? 'bg-gray-600 text-gray-400'
+                                            : 'bg-slate-200 text-slate-400'
+                                        : isDark
+                                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90'
+                                            : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:opacity-90'
+                                        }`}
                                     aria-label={isLoading ? "Sending message" : "Send message"}
                                 >
                                     {isLoading ? (
                                         <div className="flex items-center space-x-1">
-                                            <span className="text-xs italic mr-1">Thinking</span>
+                                            <span className={`text-xs italic mr-1 ${isDark ? 'text-gray-300' : 'text-slate-600'
+                                                }`}>Thinking</span>
                                             <div className="flex space-x-1">
-                                                <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></div>
-                                                <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                                                <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                                                <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${isDark ? 'bg-gray-300' : 'bg-slate-600'
+                                                    }`}></div>
+                                                <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${isDark ? 'bg-gray-300' : 'bg-slate-600'
+                                                    }`} style={{ animationDelay: '0.2s' }}></div>
+                                                <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${isDark ? 'bg-gray-300' : 'bg-slate-600'
+                                                    }`} style={{ animationDelay: '0.4s' }}></div>
                                             </div>
                                         </div>
                                     ) : (
@@ -349,7 +391,10 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsOpen(true)}
-                        className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full p-4 shadow-xl transition-all"
+                        className={`rounded-full p-4 shadow-xl transition-all ${isDark
+                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                            : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white'
+                            }`}
                         aria-label="Open chat"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

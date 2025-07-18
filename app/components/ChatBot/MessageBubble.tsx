@@ -10,9 +10,10 @@ type MessageBubbleProps = {
         timestamp: Date;
     };
     isLoading?: boolean;
+    isDark?: boolean;
 };
 
-const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
+const MessageBubble = ({ message, isLoading = false, isDark = true }: MessageBubbleProps) => {
     const isUser = message.role === 'user';
     const [copied, setCopied] = useState(false);
 
@@ -38,7 +39,8 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
                 return (
                     <div
                         key={`p-${pIndex}`}
-                        className={`font-bold ${level === 1 ? 'text-xl' : level === 2 ? 'text-lg' : 'text-base'} mb-2 mt-3 text-blue-300`}
+                        className={`font-bold ${level === 1 ? 'text-xl' : level === 2 ? 'text-lg' : 'text-base'} mb-2 mt-3 ${isDark ? 'text-blue-300' : 'text-blue-600'
+                            }`}
                     >
                         {headingText}
                     </div>
@@ -60,11 +62,12 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
                         const parts = listItem.split('**');
                         return (
                             <div key={`line-${lineIndex}`} className="flex items-start my-1">
-                                <span className="mr-2 mt-1.5">•</span>
+                                <span className={`mr-2 mt-1.5 ${isDark ? 'text-blue-300' : 'text-blue-500'}`}>•</span>
                                 <span>
                                     {parts.map((part, partIndex) => (
                                         partIndex % 2 === 1 ? (
-                                            <strong key={`part-${partIndex}`} className="font-semibold text-blue-200">
+                                            <strong key={`part-${partIndex}`} className={`font-semibold ${isDark ? 'text-blue-200' : 'text-blue-600'
+                                                }`}>
                                                 {part}
                                             </strong>
                                         ) : (
@@ -78,7 +81,7 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
 
                     return (
                         <div key={`line-${lineIndex}`} className="flex items-start my-1">
-                            <span className="mr-2 mt-1.5">•</span>
+                            <span className={`mr-2 mt-1.5 ${isDark ? 'text-blue-300' : 'text-blue-500'}`}>•</span>
                             <span>{listItem}</span>
                         </div>
                     );
@@ -91,7 +94,8 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
                         <div key={`line-${lineIndex}`} className="my-1">
                             {parts.map((part, partIndex) => (
                                 partIndex % 2 === 1 ? (
-                                    <strong key={`part-${partIndex}`} className="font-semibold text-blue-200">
+                                    <strong key={`part-${partIndex}`} className={`font-semibold ${isDark ? 'text-blue-200' : 'text-blue-600'
+                                        }`}>
                                         {part}
                                     </strong>
                                 ) : (
@@ -126,13 +130,18 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
             className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-2`}
         >
             <div className={`max-w-[85%] rounded-2xl px-4 py-3 relative ${isUser
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none'
-                : 'bg-gradient-to-br from-gray-700 to-gray-800 text-gray-100 rounded-bl-none'
+                ? isDark
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none'
+                    : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-br-none'
+                : isDark
+                    ? 'bg-gradient-to-br from-gray-700 to-gray-800 text-gray-100 rounded-bl-none'
+                    : 'bg-gradient-to-br from-slate-100 to-slate-200 text-slate-800 rounded-bl-none'
                 } shadow-md`}>
 
                 {!isLoading && !isUser && (
                     <div className="absolute -left-1 top-0 w-3 h-3 overflow-hidden">
-                        <div className="absolute w-3 h-3 bg-gray-700 rotate-45 transform origin-bottom-left"></div>
+                        <div className={`absolute w-3 h-3 rotate-45 transform origin-bottom-left ${isDark ? 'bg-gray-700' : 'bg-slate-100'
+                            }`}></div>
                     </div>
                 )}
 
@@ -140,7 +149,8 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
                 {!isLoading && !isUser && (
                     <button
                         onClick={handleCopy}
-                        className="absolute top-1 right-1 text-gray-400 hover:text-gray-200 transition-opacity"
+                        className={`absolute top-1 right-1 transition-opacity ${isDark ? 'text-gray-400 hover:text-gray-200' : 'text-slate-500 hover:text-slate-700'
+                            }`}
                         aria-label={copied ? "Copied!" : "Copy message"}
                     >
                         {copied ? (
@@ -158,11 +168,15 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
 
                 {isLoading ? (
                     <div className="flex items-center space-x-1 py-1">
-                        <span className="text-gray-400 text-sm italic">Thinking</span>
+                        <span className={`text-sm italic ${isDark ? 'text-gray-400' : 'text-slate-500'
+                            }`}>Thinking</span>
                         <div className="flex space-x-1">
-                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                            <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${isDark ? 'bg-gray-400' : 'bg-slate-500'
+                                }`}></div>
+                            <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${isDark ? 'bg-gray-400' : 'bg-slate-500'
+                                }`} style={{ animationDelay: '0.2s' }}></div>
+                            <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${isDark ? 'bg-gray-400' : 'bg-slate-500'
+                                }`} style={{ animationDelay: '0.4s' }}></div>
                         </div>
                     </div>
                 ) : (
@@ -170,7 +184,10 @@ const MessageBubble = ({ message, isLoading = false }: MessageBubbleProps) => {
                         <div className="text-base leading-relaxed">
                             {formatContent(message.content)}
                         </div>
-                        <p className={`text-xs mt-1 ${isUser ? 'text-blue-200' : 'text-gray-400'} text-right`}>
+                        <p className={`text-xs mt-1 text-right ${isUser
+                            ? isDark ? 'text-blue-200' : 'text-blue-100'
+                            : isDark ? 'text-gray-400' : 'text-slate-500'
+                            }`}>
                             {format(message.timestamp, 'HH:mm')}
                         </p>
                     </>

@@ -76,25 +76,25 @@ function Temperature() {
                 dark:bg-dark-grey shadow-sm dark:shadow-none
         ">
             <p className="flex justify-between items-center">
-                <span className="font-medium">{currentDay}</span>
-                <span className="font-medium">{localTime}</span>
+                <span className="font-medium text-slate-500 dark:text-slate-400">{currentDay}</span>
+                <span className="font-medium text-slate-500 dark:text-slate-400">{localTime}</span>
             </p>
 
             <p className="mb-6 font-bold flex items-center gap-2">
-                <span>{name}</span>
-                <span>{navigation}</span>
+                <span className='text-slate-800 dark:text-slate-200'>{name}</span>
+                <span className='text-blue-500 dark:text-blue-700'>{navigation}</span>
             </p>
 
-            <p className="pt-3 pb-7 text-8xl font-bold self-center">{temp}°C</p>
+            <p className="pt-3 pb-7 text-8xl font-bold self-center text-amber-600 dark:text-amber-400">{temp}°C</p>
 
             <div>
                 <div>
                     <span className="text-2xl">{getIcon()}</span>
-                    <p className="pt-2 capitalize text-lg font-medium">{description}</p>
+                    <p className="pt-2 capitalize text-lg font-medium text-blue-600 dark:text-blue-400">{description}</p>
                 </div>
                 <p className='flex items-center gap-4'>
-                    <span><strong>Low: </strong>{minTemp}°C</span>
-                    <span><strong>High: </strong> {maxTemp}°C</span>
+                    <span><strong className='text-blue-500'>Low: </strong>{minTemp}°C</span>
+                    <span><strong className='text-red-500'>High: </strong> {maxTemp}°C</span>
                 </p>
             </div>
         </div>

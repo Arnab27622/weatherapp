@@ -18,7 +18,7 @@ function Wind() {
 
     return (
         <div className='pt-3 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none'>
-            <h2 className='flex items-center gap-2 font-medium'>
+            <h2 className='flex items-center gap-2 font-medium text-gray-700 dark:text-gray-300'>
                 {wind} Wind
             </h2>
 
@@ -31,7 +31,7 @@ function Wind() {
                         transformBox: 'fill-box',
                     }} />
                 </div>
-                <p className="absolute inset-0 flex items-center justify-center text-xs dark:text-white font-medium">{Math.round(windSpeed)} m/s</p>
+                <p className="absolute inset-0 flex items-center justify-center text-xs text-sky-600 dark:text-sky-400 font-bold">{Math.round(windSpeed)} m/s</p>
             </div>
         </div>
     )

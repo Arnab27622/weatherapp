@@ -41,33 +41,31 @@ function FiveDayForecast() {
         dailyForecasts.push(processData(dailyData));
     }
 
-    console.log(dailyForecasts)
-
     return (
         <div className="
                 pt-7 pb-6 px-4
                 border rounded-lg flex flex-1 flex-col justify-between
                 dark:bg-dark-grey shadow-sm dark:shadow-none">
             <div className="top">
-                <h2 className="flex items-center gap-2 font-medium">
+                <h2 className="flex items-center gap-2 font-medium text-slate-900 dark:text-slate-100">
                     {calender}5-Day Forecast for {city.name}
                 </h2>
 
                 <div className="forecast-list pt-3">{
                     dailyForecasts.map((day, index) => {
                         return <div key={index} className='daily-forecast py-4 flex flex-col justify-evenly border-b-2'>
-                            <p className='text-2xl min-w-[3.5rem]'>{day.day}</p>
+                            <p className='text-2xl min-w-[3.5rem] text-slate-700 dark:text-slate-300'>{day.day}</p>
                             <p className='text-sm flex justify-between'>
-                                <span>(Low)</span>
-                                <span>(High)</span>
+                                <span className='text-blue-500'>(Low)</span>
+                                <span className='text-red-500'>(High)</span>
                             </p>
 
                             <div className='flex flex-1 items-center justify-between gap-4'>
-                                <p className="font-bold">
+                                <p className="font-bold text-blue-700 dark:text-blue-300">
                                     {kelvinToCelsius(day.minTemp)}°C
                                 </p>
                                 <div className="temperature flex-1 w-full h-2 rounded-lg"></div>
-                                <p className="font-bold">
+                                <p className="font-bold text-orange-700 dark:text-orange-300">
                                     {kelvinToCelsius(day.maxTemp)}°C
                                 </p>
                             </div>

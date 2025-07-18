@@ -14,36 +14,67 @@ function Pressure() {
 
     const { pressure } = forecast?.main;
 
-    const getPressureDesc = (pressure: number) => {
+    const getPressureInfo = (pressure: number) => {
         if (pressure < 980) {
-            return "Very Low: Possible stormy or unsettled weather.";
+            return {
+                text: "Very Low: Possible stormy or unsettled weather.",
+                color: "text-red-600 dark:text-red-400",
+                valueColor: "text-red-700 dark:text-red-300"
+            };
         } else if (pressure < 1000) {
-            return "Low: Often associated with cloudy, rainy, or windy weather.";
+            return {
+                text: "Low: Often associated with cloudy, rainy, or windy weather.",
+                color: "text-orange-600 dark:text-orange-400",
+                valueColor: "text-orange-700 dark:text-orange-300"
+            };
         } else if (pressure < 1013) {
-            return "Slightly Below Average: May indicate changing weather conditions.";
+            return {
+                text: "Slightly Below Average: May indicate changing weather conditions.",
+                color: "text-amber-600 dark:text-amber-400",
+                valueColor: "text-amber-700 dark:text-amber-300"
+            };
         } else if (pressure === 1013) {
-            return "Average: Standard atmospheric pressure at sea level.";
+            return {
+                text: "Average: Standard atmospheric pressure at sea level.",
+                color: "text-emerald-600 dark:text-emerald-400",
+                valueColor: "text-emerald-700 dark:text-emerald-300"
+            };
         } else if (pressure <= 1025) {
-            return "Above Average: Often brings calm and clear weather.";
+            return {
+                text: "Above Average: Often brings calm and clear weather.",
+                color: "text-blue-600 dark:text-blue-400",
+                valueColor: "text-blue-700 dark:text-blue-300"
+            };
         } else if (pressure > 1025) {
-            return "High: Indicates very stable and dry conditions, often sunny.";
+            return {
+                text: "High: Indicates very stable and dry conditions, often sunny.",
+                color: "text-indigo-600 dark:text-indigo-400",
+                valueColor: "text-indigo-700 dark:text-indigo-300"
+            };
         }
 
-        return "Unavailable: Air pressure data not available.";
+        return {
+            text: "Unavailable: Air pressure data not available.",
+            color: "text-slate-600 dark:text-slate-400",
+            valueColor: "text-slate-700 dark:text-slate-300"
+        };
     };
 
+    const pressureInfo = getPressureInfo(pressure);
 
     return (
         <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-6 md:gap-3 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <div className="top">
-                <h2 className="flex items-center gap-2 font-medium">
-                    {gauge}Pressure
+                <h2 className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
+                    {gauge} Pressure
                 </h2>
-                <p className="text-2xl pt-4 md:pt-3">
+                <p className={`text-2xl pt-4 md:pt-3 font-bold ${pressureInfo.valueColor}`}>
                     {pressure} hPa
                 </p>
             </div>
-            <p className='text-sm'>{getPressureDesc(pressure)}</p>
+            <p className={`text-sm ${pressureInfo.color}`}>
+                {pressureInfo.text}
+            </p>
         </div>
     )
 }

@@ -64,9 +64,9 @@ function DailyForecast() {
 
                                     return (
                                         <CarouselItem className='flex flex-col gap-4 basis-[8.5rem] cursor-grab' key={forecastItem.dt_txt}>
-                                            <p className="text-gray-300">{time}</p>
+                                            <p className="text-gray-600 dark:text-gray-400">{time}</p>
                                             <p>{icon}</p>
-                                            <p className='mt-4'>{temp}°C</p>
+                                            <p className='mt-4 text-sky-700 dark:text-sky-300'>{temp}°C</p>
                                         </CarouselItem>
                                     );
                                 })}
