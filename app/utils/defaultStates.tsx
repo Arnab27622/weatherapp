@@ -40,14 +40,7 @@ const defaultStates = [
     state: "Singapore",
     lat: 1.3521,
     lon: 103.8198,
-  },
-  {
-    name: "Dubai",
-    country: "AE",
-    state: "Dubai",
-    lat: 25.2048,
-    lon: 55.2708,
-  },
+  }
 ];
 
 export default defaultStates;

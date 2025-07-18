@@ -14,6 +14,7 @@ import Footer from "./components/Footer/Footer";
 import Cities from "./components/Cities/Cities";
 import FiveDayForecast from "./components/FiveDayForecast/FiveDayForecast";
 import { GlobalContextProvider } from "./context/globalContext";
+import ChatBot from "./components/ChatBot/ChatBot";
 
 export default function Home() {
   return (
@@ -44,6 +45,7 @@ export default function Home() {
           </div>
         </div>
         <Footer />
+        <ChatBot />
       </main>
     </GlobalContextProvider>
   );
