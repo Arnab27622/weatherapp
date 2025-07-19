@@ -8,8 +8,8 @@ function Footer() {
         <footer className="flex justify-center pb-15 md:pb-8 py-4">
             <p className="footer-text text-sm flex items-center gap-1">
                 Made by
-                <Image src={'./logo-white.svg'} alt="logo" width={20} height={20} unoptimized />
-                <a href="https://portfolio-rho-green-23.vercel.app/" target="_blank" className="text-purple-600 font-bold">Arnab Dey</a>
+                <Image src="/logo-white.svg" alt="logo" width={20} height={20} unoptimized />
+                <span className="text-purple-600 font-bold">Arnab Dey</span>
             </p>
         </footer>
     )
