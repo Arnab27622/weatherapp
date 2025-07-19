@@ -1,31 +1,37 @@
 "use client"
 
-import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
-import { github } from '../utils/Icons'
 import ThemeDropdown from './ThemeDropdown/ThemeDropdown'
 import SearchDialog from './SearchDialog/SearchDialog'
+import { useTheme } from 'next-themes'
+import Image from 'next/image'
 
 function Navbar() {
-  const router = useRouter();
+  const { theme } = useTheme()
 
   return (
-    <div className="w-full py-4 flex items-center justify-between">
-      <div className="left"></div>
-      <div className="search-container flex shrink-0 w-full gap-2 sm:w-fit">
-        <SearchDialog />
+    <div className="sticky top-0 z-1140 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        {theme === 'dark' ? (
+          <Image
+            src="/logo.png"
+            alt="Dark Logo"
+            width={48}
+            height={48}
+            className="pl-2 h-12 w-auto"
+          />
+        ) : (
+          <Image
+            src="/logo2.png"
+            alt="Light Logo"
+            width={48}
+            height={48}
+            className="pl-2 h-12 w-auto"
+          />
+        )}
 
-        <div className="btn-group flex items-center gap-2">
+        <div className="search-container flex gap-4">
+          <SearchDialog />
           <ThemeDropdown />
-
-          <Button
-            className="source-code-btn flex items-center gap-2"
-            onClick={() => {
-              router.push("https//github.com");
-            }}
-          >
-            {github} Source Code
-          </Button>
         </div>
       </div>
     </div>

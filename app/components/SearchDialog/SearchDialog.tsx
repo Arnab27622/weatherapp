@@ -10,7 +10,6 @@ import React, {
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Command, CommandInput } from "@/components/ui/command";
-import { commandIcon } from "@/app/utils/Icons";
 import { Search, Trash2 } from "lucide-react";
 import {
     useGlobalContext,
@@ -77,27 +76,23 @@ const SearchDialog: React.FC = () => {
                 <DialogTrigger asChild>
                     <Button
                         variant="outline"
-                        className="border inline-flex items-center justify-center text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100 ease-in-out duration-200"
+                        className="border inline-flex items-center justify-start text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100 ease-in-out duration-200 py-1 sm:py-2 px-3 w-full sm:w-64"
                     >
-                        <span className="text-sm text-muted-foreground">
-                            Search Here...
-                        </span>
-                        <div className="command dark:bg-[#262626] bg-slate-200 py-[2px] pl-[5px] pr-[7px] rounded-sm ml-[10rem] flex items-center gap-2">
-                            {commandIcon}
-                            <span className="text-[9px]">F</span>
-                        </div>
+                        <Search className="mr-2 h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">Search cities...</span>
                     </Button>
                 </DialogTrigger>
 
-                <DialogContent className="p-0">
+                <DialogContent className="p-0 z-1100">
                     <Command className="rounded-lg border shadow-md">
                         <CommandInput
                             placeholder="Type a command or search"
                             value={inputValue}
                             onChangeCapture={onInputChange}
+                            className="text-sm sm:text-base"
                         />
 
-                        <ul className="px-3 pb-2">
+                        <ul className="px-2 sm:px-3 pb-2">
                             {inputValue ? (
                                 <>
                                     <li className="p-2 text-sm text-muted-foreground">
@@ -116,13 +111,13 @@ const SearchDialog: React.FC = () => {
                                             return (
                                                 <li
                                                     key={`${item.name}-${index}`}
-                                                    className={`flex items-center py-3 px-2 text-sm cursor-pointer rounded-sm ${isHovered ? "bg-accent" : ""
+                                                    className={`flex items-center py-2 sm:py-3 px-2 text-sm cursor-pointer rounded-sm ${isHovered ? "bg-accent" : ""
                                                         }`}
                                                     onMouseEnter={() => setHoveredIndex(index)}
                                                     onClick={() => handleCitySelection(item)}
                                                 >
                                                     <Search className="mr-2 h-4 w-4" />
-                                                    <span className="text-sm">
+                                                    <span className="text-xs sm:text-sm">
                                                         {item.name},{" "}
                                                         {item.state ? `${item.state}, ` : ""}
                                                         {item.country}
@@ -158,7 +153,7 @@ const SearchDialog: React.FC = () => {
                                         return (
                                             <li
                                                 key={item.id}
-                                                className={`flex items-center justify-between py-3 px-2 text-sm cursor-pointer rounded-sm group ${isHovered ? "bg-accent" : ""
+                                                className={`flex items-center justify-between py-2 sm:py-3 px-2 text-sm cursor-pointer rounded-sm group ${isHovered ? "bg-accent" : ""
                                                     }`}
                                                 onMouseEnter={() => setHoveredIndex(index)}
                                                 onClick={() =>
@@ -173,7 +168,7 @@ const SearchDialog: React.FC = () => {
                                             >
                                                 <div className="flex items-center">
                                                     <Search className="mr-2 h-4 w-4" />
-                                                    <span className="text-sm">
+                                                    <span className="text-xs sm:text-sm">
                                                         {item.name},{" "}
                                                         {item.state ? `${item.state}, ` : ""}
                                                         {item.country}
@@ -182,12 +177,12 @@ const SearchDialog: React.FC = () => {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-red-500"
+                                                    className="h-5 w-5 sm:h-6 sm:w-6 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-red-500"
                                                     onClick={(e) =>
                                                         handleDeleteHistoryItem(e, item.id)
                                                     }
                                                 >
-                                                    <Trash2 className="h-4 w-4" />
+                                                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 </Button>
                                             </li>
                                         );

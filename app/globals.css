@@ -139,7 +139,7 @@
       rgba(178, 34, 34, 1) 90%);
 }
 
-@media screen and (max-width: 581px) {
+/* @media screen and (max-width: 581px) {
   .btn-group {
     position: fixed;
     bottom: 2%;
@@ -162,11 +162,7 @@
   .search-btn button {
     width: 100%;
   }
-
-  .source-code-btn {
-    order: -1;
-  }
-}
+} */
 
 @media screen and (max-width: 1010px) {
   .mapbox-con {
