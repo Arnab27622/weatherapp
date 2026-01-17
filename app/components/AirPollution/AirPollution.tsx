@@ -2,7 +2,7 @@
 
 import { useGlobalContext } from '@/app/context/GlobalContext'
 import { thermo } from '@/app/utils/Icons';
-import { airQualityIndexText } from '@/app/utils/misc';
+import { airQualityIndexText } from '@/app/constants/config';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'

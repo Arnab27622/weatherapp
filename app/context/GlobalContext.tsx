@@ -1,9 +1,15 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from "react"
-import axios from "axios"
 import defaultStates from "../utils/defaultStates"
 import { useQuery } from "@tanstack/react-query"
+import {
+    fetchForecast,
+    fetchAirQuality,
+    fetchFiveDayForecast,
+    fetchUvIndex,
+    fetchGeoCodedList as fetchGeoCodedListAPI
+} from "../services/weatherService"
 
 interface GlobalContextProps {
     forecast: any
@@ -58,45 +64,33 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
     // React Query Implementations
     const { data: forecast } = useQuery({
         queryKey: ["forecast", lat, lon],
-        queryFn: async () => {
-            const res = await axios.get(`api/weather?lat=${lat}&lon=${lon}`)
-            return res.data
-        },
+        queryFn: () => fetchForecast(lat, lon),
         enabled: !!lat && !!lon,
     })
 
     const { data: airQuality } = useQuery({
         queryKey: ["airQuality", lat, lon],
-        queryFn: async () => {
-            const res = await axios.get(`api/pollution?lat=${lat}&lon=${lon}`)
-            return res.data
-        },
+        queryFn: () => fetchAirQuality(lat, lon),
         enabled: !!lat && !!lon,
     })
 
     const { data: fiveDayForecast } = useQuery({
         queryKey: ["fiveDayForecast", lat, lon],
-        queryFn: async () => {
-            const res = await axios.get(`api/fiveday?lat=${lat}&lon=${lon}`)
-            return res.data
-        },
+        queryFn: () => fetchFiveDayForecast(lat, lon),
         enabled: !!lat && !!lon,
     })
 
     const { data: uvIndex } = useQuery({
         queryKey: ["uvIndex", lat, lon],
-        queryFn: async () => {
-            const res = await axios.get(`/api/uv?lat=${lat}&lon=${lon}`)
-            return res.data
-        },
+        queryFn: () => fetchUvIndex(lat, lon),
         enabled: !!lat && !!lon,
     })
 
     // Search Geocoded List
     const fetchGeoCodedList = async (search: string) => {
         if (!search.trim()) return defaultStates
-        const res = await axios.get(`/api/geocoded?search=${search}`)
-        return res.data
+        const res = await fetchGeoCodedListAPI(search)
+        return res
     }
 
     const { data: geoCodedList = defaultStates } = useQuery({
