@@ -146,28 +146,26 @@ ${forecast.sys?.sunset && forecast.timezone ? `- Sunset: ${unixToTime(forecast.s
 ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, forecast.timezone)}` : ''}
             ` : 'No weather data available';
 
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are a helpful weather assistant. 
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: `You are a helpful weather assistant. 
             Format responses using markdown syntax:
             - Use **bold** for bold text
             - Use bullet points with • 
             - DO NOT use HTML tags
             Current weather data:\n${weatherContext}\n\nUser question: ${inputValue}`
-                            }]
                         }]
-                    })
-                }
-            );
+                    }]
+                })
+            });
 
             if (!response.ok) {
-                throw new Error(`API error: ${response.status}`);
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `API error: ${response.status}`);
             }
 
             const data = await response.json();
