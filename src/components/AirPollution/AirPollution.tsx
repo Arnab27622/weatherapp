@@ -11,7 +11,13 @@ function AirPollution() {
     const { data: airQuality } = useAirQuality();
 
     if (!airQuality || !airQuality.list || !airQuality.list[0] || !airQuality.list[0].main) {
-        return <Skeleton className='h-[12rem] w-full col-span-2 md:col-span-full' />
+        return (
+            <div className='air-pollution pt-6 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2 overflow-hidden'>
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+            </div>
+        )
     }
 
     const airQualityIndex = airQuality.list[0].main.aqi * 10;

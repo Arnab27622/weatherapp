@@ -9,7 +9,15 @@ function Pressure() {
     const { data: forecast } = useForecast();
 
     if (!forecast || !forecast?.main || !forecast?.main?.pressure) {
-        return <Skeleton className='h-[12rem] w-full' />
+        return (
+            <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-6 md:gap-3 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+                <div className="top">
+                    <Skeleton className="h-6 w-24 mb-2" />
+                    <Skeleton className="h-10 w-24" />
+                </div>
+                <Skeleton className="h-4 w-full" />
+            </div>
+        )
     }
 
     const { pressure } = forecast?.main;

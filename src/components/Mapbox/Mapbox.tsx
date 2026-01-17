@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import { useForecast } from '@/hooks/useWeatherData';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function FlyToActiveCity({ activeCityCoords }: {
     activeCityCoords: {
@@ -32,11 +33,11 @@ function Mapbox() {
     const activeCityCoords = forecast?.coord;
 
     if (!forecast || !forecast?.coord || !activeCityCoords) {
-        return <div>
-            <h1>
-                Loading...
-            </h1>
-        </div>
+        return (
+            <div className='flex-1 basis-[50%] border rounded-lg'>
+                <Skeleton className="h-full w-full rounded-lg" />
+            </div>
+        )
     }
 
     return (

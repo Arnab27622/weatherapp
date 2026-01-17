@@ -10,7 +10,21 @@ function UvIndex() {
     const { data: uvIndex } = useUvIndex();
 
     if (!uvIndex || !uvIndex.result) {
-        return <Skeleton className='h-[12rem] w-full' />
+        return (
+            <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 md:gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+                <div className="top">
+                    <Skeleton className="h-6 w-28 mb-2" />
+                    <div className="pt-2 flex flex-col gap-1">
+                        <div className="flex gap-2 items-end">
+                            <Skeleton className="h-10 w-12" />
+                            <Skeleton className="h-6 w-20 mb-1" />
+                        </div>
+                        <Skeleton className="h-2 w-full mt-2" />
+                    </div>
+                </div>
+                <Skeleton className="h-4 w-48 mb-2" />
+            </div >
+        )
     }
 
     const uvIndexValue = uvIndex.result.uv;

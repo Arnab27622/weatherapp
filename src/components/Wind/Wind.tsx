@@ -2,19 +2,32 @@
 
 import { useForecast } from '@/hooks/useWeatherData';
 import { wind } from '@/utils/Icons';
+import { useUnit } from '@/context/UnitContext';
+import { convertWindSpeed } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import React from 'react'
 
 function Wind() {
     const { data: forecast } = useForecast();
+    const { unit } = useUnit();
 
     const windSpeed = forecast?.wind?.speed;
     const windDir = forecast?.wind?.deg;
 
     if (!forecast || !windSpeed || !windDir) {
-        return <Skeleton className='h-[12rem] w-full' />
+        return (
+            <div className='pt-3 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+                <Skeleton className="h-6 w-24" />
+                <div className="flex items-center justify-center mt-2">
+                    <Skeleton className="h-24 w-24 rounded-full" />
+                </div>
+            </div>
+        )
     }
+
+    const speed = convertWindSpeed(windSpeed, unit);
+    const unitSymbol = unit === 'imperial' ? 'mph' : 'm/s';
 
     return (
         <div className='pt-3 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none'>
@@ -31,7 +44,7 @@ function Wind() {
                         transformBox: 'fill-box',
                     }} />
                 </div>
-                <p className="absolute inset-0 flex items-center justify-center text-xs text-sky-600 dark:text-sky-400 font-bold">{Math.round(windSpeed)} m/s</p>
+                <p className="absolute inset-0 flex items-center justify-center text-xs text-sky-600 dark:text-sky-400 font-bold">{speed} {unitSymbol}</p>
             </div>
         </div>
     )
