@@ -10,7 +10,7 @@ import { GeocodedLocation } from "../types/weather"
 interface SearchContextProps {
     inputValue: string
     setInputValue: React.Dispatch<React.SetStateAction<string>>
-    handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void
+    handleInput: (value: string) => void
     geoCodedList: GeocodedLocation[]
     isSearchLoading: boolean
 }
@@ -31,24 +31,23 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: searchResults, isFetching: isSearchFetching } = useQuery({
         queryKey: ["geocodedList", debouncedSearch],
         queryFn: async () => {
-            if (!debouncedSearch.trim()) return defaultStates
+            if (!debouncedSearch.trim()) return []
             return await fetchGeoCodedListAPI(debouncedSearch)
         },
-        initialData: defaultStates,
-        enabled: true,
-        staleTime: 24 * 60 * 60 * 1000, // Search results can be cached for a long time
+        enabled: debouncedSearch.length > 0,
+        staleTime: 24 * 60 * 60 * 1000,
     })
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value)
+    const handleInput = (value: string) => {
+        setInputValue(value)
     }
 
     const isDebouncing = inputValue !== debouncedSearch
     const isSearchLoading = isSearchFetching || isDebouncing
 
-    const geoCodedList = (inputValue.trim() === "" && debouncedSearch === "")
+    const geoCodedList = (inputValue.trim() === "")
         ? defaultStates
-        : (searchResults || defaultStates)
+        : (searchResults || [])
 
     return (
         <SearchContext.Provider value={{

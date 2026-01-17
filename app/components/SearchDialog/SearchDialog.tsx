@@ -4,7 +4,6 @@ import React, {
     useState,
     useEffect,
     useCallback,
-    ChangeEvent,
     MouseEvent,
 } from "react";
 import { Button } from "@/components/ui/button";
@@ -52,7 +51,7 @@ const SearchDialog: React.FC = () => {
         ]
     );
 
-    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => handleInput(e);
+    const onInputChange = (value: string) => handleInput(value);
 
     const handleDeleteHistoryItem = (
         e: MouseEvent<HTMLButtonElement>,
@@ -64,24 +63,31 @@ const SearchDialog: React.FC = () => {
 
     return (
         <div className="search-btn">
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog
+                open={open}
+                onOpenChange={(isOpen) => {
+                    setOpen(isOpen);
+                    if (!isOpen) {
+                        setInputValue("");
+                    }
+                }}
+            >
                 <DialogTrigger asChild>
                     <Button
                         variant="outline"
-                        className="border inline-flex items-center justify-start text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100 ease-in-out duration-200 py-1 sm:py-2 px-3 w-full sm:w-64"
+                        className="border inline-flex items-center justify-start text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100 ease-in-out duration-200 p-2 cursor-pointer"
                     >
-                        <Search className="mr-2 h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Search cities...</span>
+                        <Search className="h-6 w-6 text-muted-foreground" />
                     </Button>
                 </DialogTrigger>
 
                 <DialogContent className="p-0 z-1100">
-                    <Command className="rounded-lg border shadow-md">
+                    <Command className="rounded-lg border shadow-md" shouldFilter={false}>
                         <div className="relative">
                             <CommandInput
-                                placeholder="Type a command or search"
+                                placeholder="Search cities..."
                                 value={inputValue}
-                                onChangeCapture={onInputChange}
+                                onValueChange={onInputChange}
                                 className="text-sm sm:text-base"
                             />
                             {isSearchLoading && (
@@ -131,7 +137,7 @@ const SearchDialog: React.FC = () => {
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="text-xs text-red-500 hover:text-red-600"
+                                            className="text-xs text-red-500 hover:text-red-600 cursor-pointer"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 clearHistory();
