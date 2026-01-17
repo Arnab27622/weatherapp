@@ -1,21 +1,29 @@
-import AirPollution from "@/components/AirPollution/AirPollution";
-import DailyForecast from "@/components/DailyForecast/DailyForecast";
-import FeelsLike from "@/components/FeelsLike/FeelsLike";
-import Humidity from "@/components/Humidity/Humidity";
+import { Suspense, lazy } from "react";
 import Navbar from "@/components/Navbar";
-import Population from "@/components/Population/Population";
-import Pressure from "@/components/Pressure/Pressure";
-import Sunset from "@/components/Sunset/Sunset";
 import Temperature from "@/components/Temperature/Temperature";
-import UvIndex from "@/components/UvIndex/UvIndex";
-import Visibility from "@/components/Visibility/Visibility";
-import Wind from "@/components/Wind/Wind";
-import Footer from "@/components/Footer/Footer";
-import Cities from "@/components/Cities/Cities";
-import ChatBot from "@/components/ChatBot/ChatBot";
-import FiveDayForecast from "@/components/FiveDayForecast/FiveDayForecast";
 import { LocationProvider } from "@/context/LocationContext";
 import { SearchProvider } from "@/context/SearchContext";
+
+// Lazy load components that are not immediately visible
+const DailyForecast = lazy(() => import("@/components/DailyForecast/DailyForecast"));
+const FeelsLike = lazy(() => import("@/components/FeelsLike/FeelsLike"));
+const Humidity = lazy(() => import("@/components/Humidity/Humidity"));
+const Population = lazy(() => import("@/components/Population/Population"));
+const Pressure = lazy(() => import("@/components/Pressure/Pressure"));
+const Sunset = lazy(() => import("@/components/Sunset/Sunset"));
+const UvIndex = lazy(() => import("@/components/UvIndex/UvIndex"));
+const Visibility = lazy(() => import("@/components/Visibility/Visibility"));
+const Wind = lazy(() => import("@/components/Wind/Wind"));
+const Footer = lazy(() => import("@/components/Footer/Footer"));
+const Cities = lazy(() => import("@/components/Cities/Cities"));
+const ChatBot = lazy(() => import("@/components/ChatBot/ChatBot"));
+const FiveDayForecast = lazy(() => import("@/components/FiveDayForecast/FiveDayForecast"));
+const AirPollution = lazy(() => import("@/components/AirPollution/AirPollution"));
+
+// Simple loading skeleton for components
+const ComponentSkeleton = () => (
+  <div className="h-48 bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
+);
 
 export default function Home() {
   return (
@@ -27,27 +35,55 @@ export default function Home() {
             <div className="pb-4 flex flex-col gap-4 md:flex-row mt-6">
               <div className="flex flex-col gap-4 w-full min-w-[18rem] md:w-[35rem]">
                 <Temperature />
-                <FiveDayForecast />
+                <Suspense fallback={<ComponentSkeleton />}>
+                  <FiveDayForecast />
+                </Suspense>
               </div>
               <div className="flex flex-col w-full">
                 <div className="instruments grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  <AirPollution />
-                  <Sunset />
-                  <Wind />
-                  <DailyForecast />
-                  <UvIndex />
-                  <Population />
-                  <FeelsLike />
-                  <Humidity />
-                  <Visibility />
-                  <Pressure />
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <AirPollution />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <Sunset />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <Wind />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <DailyForecast />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <UvIndex />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <Population />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <FeelsLike />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <Humidity />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <Visibility />
+                  </Suspense>
+                  <Suspense fallback={<ComponentSkeleton />}>
+                    <Pressure />
+                  </Suspense>
                 </div>
-                <Cities />
+                <Suspense fallback={<ComponentSkeleton />}>
+                  <Cities />
+                </Suspense>
               </div>
             </div>
           </div>
-          <Footer />
-          <ChatBot />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+          <Suspense fallback={null}>
+            <ChatBot />
+          </Suspense>
         </main>
       </SearchProvider>
     </LocationProvider>

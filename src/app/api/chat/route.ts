@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { logger } from "@/utils/logger";
 
 export async function POST(req: NextRequest) {
     try {
@@ -7,6 +8,7 @@ export async function POST(req: NextRequest) {
         const apiKey = process.env.GEMINI_API_KEY;
 
         if (!apiKey) {
+            logger.error("Gemini API key is not configured");
             return NextResponse.json({ error: "Gemini API key is not configured" }, { status: 500 });
         }
 
@@ -21,7 +23,10 @@ export async function POST(req: NextRequest) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Gemini API error:", errorData);
+            logger.apiError("/api/chat", new Error(`Gemini API error: ${response.status}`), {
+                status: response.status,
+                errorData
+            });
             return NextResponse.json(
                 { error: errorData.error?.message || `API error: ${response.status}` },
                 { status: response.status }
@@ -31,7 +36,7 @@ export async function POST(req: NextRequest) {
         const data = await response.json();
         return NextResponse.json(data);
     } catch (error) {
-        console.error("Error in chat API route:", error);
+        logger.apiError("/api/chat", error);
         const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
         return NextResponse.json({ error: errorMessage }, { status: 500 });
     }

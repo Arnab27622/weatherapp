@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { logger } from "@/utils/logger";
 
 export async function GET(req: NextRequest) {
     try {
@@ -7,7 +8,7 @@ export async function GET(req: NextRequest) {
         const lon = searchParams.get("lon");
         const apikey = process.env.OPENUV_API_KEY;
         if (typeof apikey === 'undefined') {
-            console.error("🔑 OPENUV API key is missing!");
+            logger.error("OPENUV API key is missing");
             return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
         }
 
@@ -25,16 +26,28 @@ export async function GET(req: NextRequest) {
 
         if (!res.ok) {
             const errorData = await res.json();
-            console.error("OpenUV API error:", errorData);
-            return new Response(`OpenUV API error: ${errorData.error}`, {
-                status: res.status
+            logger.apiError("/api/uv", new Error(`OpenUV API error: ${errorData.error}`), {
+                lat: lat || undefined,
+                lon: lon || undefined,
+                status: res.status,
+                errorData
             });
+            return NextResponse.json(
+                { error: `OpenUV API error: ${errorData.error}` },
+                { status: res.status }
+            );
         }
 
         const uvData = await res.json();
         return NextResponse.json(uvData);
     } catch (error) {
-        console.log("Error getting UV data", error);
-        return new Response("Error getting UV data", { status: 500 });
+        const searchParams = req.nextUrl.searchParams;
+        const lat = searchParams.get("lat");
+        const lon = searchParams.get("lon");
+        logger.apiError("/api/uv", error, { lat: lat || undefined, lon: lon || undefined });
+        return NextResponse.json(
+            { error: "Error getting UV data" },
+            { status: 500 }
+        );
     }
 };
