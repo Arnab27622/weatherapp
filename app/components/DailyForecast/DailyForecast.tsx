@@ -1,17 +1,19 @@
 "use client"
 
-import { ForecastItem, useGlobalContext } from '@/app/context/GlobalContext'
+import { ForecastItem } from '@/app/types/weather';
+import { useForecast, useFiveDayForecast } from '@/app/hooks/useWeatherData';
 import { clearSky, cloudFog, cloudLightning, cloudy, drizzleIcon, rain, snow } from '@/app/utils/Icons';
 import { kelvinToCelsius } from '@/app/utils/misc';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import React from 'react'
 
 function DailyForecast() {
-    const { forecast, fiveDayForecast } = useGlobalContext();
+    const { data: forecast } = useForecast();
+    const { data: fiveDayForecast } = useFiveDayForecast();
 
-    const { city, list } = fiveDayForecast;
+    const { city, list } = fiveDayForecast || {};
 
     if (!fiveDayForecast || !city || !list || !forecast || !forecast.weather) {
         return <Skeleton className='h-[12rem] w-full' />;
@@ -58,7 +60,7 @@ function DailyForecast() {
                         <Carousel>
                             <CarouselContent>
                                 {todaysForecast.map((forecastItem: ForecastItem) => {
-                                    const time = moment(forecastItem.dt_txt).format("HH:mm");
+                                    const time = format(parseISO(forecastItem.dt_txt), "HH:mm");
                                     const temp = kelvinToCelsius(forecastItem.main.temp);
                                     const icon = getIcon(forecastItem.weather[0].main);
 

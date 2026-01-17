@@ -1,13 +1,13 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
+import { useUvIndex } from '@/app/hooks/useWeatherData';
 import { sun } from '@/app/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 import { UvProgress } from '../UvProgress/UvProgress';
 
 function UvIndex() {
-    const { uvIndex } = useGlobalContext();
+    const { data: uvIndex } = useUvIndex();
 
     if (!uvIndex || !uvIndex.result) {
         return <Skeleton className='h-[12rem] w-full' />

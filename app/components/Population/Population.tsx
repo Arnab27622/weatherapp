@@ -1,18 +1,18 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
-import { people } from '@/app/utils/Icons'
+import { useFiveDayForecast } from '@/app/hooks/useWeatherData';
+import { people } from '@/app/utils/Icons';
 import { formatNumber } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 function Population() {
-    const { fiveDayForecast } = useGlobalContext();
-    const { city } = fiveDayForecast;
-
-    if (!fiveDayForecast || !city) {
+    const { data: fiveDayForecast } = useFiveDayForecast();
+    if (!fiveDayForecast || !fiveDayForecast.city) {
         return <Skeleton className='h-[12rem] w-full' />
     }
+
+    const { city } = fiveDayForecast;
 
     return (
         <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 md:gap-6 dark:bg-dark-grey shadow-sm dark:shadow-none'>

@@ -1,15 +1,16 @@
 "use client"
 
-import { ForecastItem, useGlobalContext } from '@/app/context/GlobalContext'
+import { ForecastItem } from '@/app/types/weather';
+import { useFiveDayForecast } from '@/app/hooks/useWeatherData';
 import { calender } from '@/app/utils/Icons'
 import { kelvinToCelsius, unixToDay } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 function FiveDayForecast() {
-    const { fiveDayForecast } = useGlobalContext();
+    const { data: fiveDayForecast } = useFiveDayForecast();
 
-    const { city, list } = fiveDayForecast;
+    const { city, list } = fiveDayForecast || {};
 
     if (!fiveDayForecast || !city || !list) {
         return <Skeleton className='h-[12rem] w-full' />

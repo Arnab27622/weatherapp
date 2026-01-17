@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
+import { useAirQuality } from '@/app/hooks/useWeatherData';
 import { thermo } from '@/app/utils/Icons';
 import { airQualityIndexText } from '@/app/constants/config';
 import { Progress } from '@/components/ui/progress';
@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 function AirPollution() {
-    const { airQuality } = useGlobalContext();
+    const { data: airQuality } = useAirQuality();
 
     if (!airQuality || !airQuality.list || !airQuality.list[0] || !airQuality.list[0].main) {
         return <Skeleton className='h-[12rem] w-full col-span-2 md:col-span-full' />

@@ -1,12 +1,12 @@
 "use client";
 
-import { useGlobalContext } from '@/app/context/GlobalContext';
+import { useForecast } from '@/app/hooks/useWeatherData';
 import { gauge } from '@/app/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 function Pressure() {
-    const { forecast } = useGlobalContext();
+    const { data: forecast } = useForecast();
 
     if (!forecast || !forecast?.main || !forecast?.main?.pressure) {
         return <Skeleton className='h-[12rem] w-full' />

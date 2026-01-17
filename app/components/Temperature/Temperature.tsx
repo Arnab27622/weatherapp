@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
+import { useForecast } from '@/app/hooks/useWeatherData'
 import {
     clearSky,
     cloudy,
@@ -13,12 +13,12 @@ import {
 } from '@/app/utils/Icons';
 import { kelvinToCelsius } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
-import moment from 'moment';
+import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react'
 
 function Temperature() {
-    const { forecast } = useGlobalContext();
-    const { main, timezone, name, weather } = forecast;
+    const { data: forecast } = useForecast();
+    const { main, timezone, name, weather } = forecast || {};
 
     const [localTime, setLocalTime] = useState<string>("");
     const [currentDay, setCurrentDay] = useState<string>("");
@@ -26,11 +26,14 @@ function Temperature() {
     useEffect(() => {
         if (!timezone) return;
 
-        const offsetMinutes = timezone / 60;
         const updateTime = () => {
-            const m = moment().utcOffset(offsetMinutes);
-            setLocalTime(m.format("HH:mm:ss"));
-            setCurrentDay(m.format("dddd"));
+            // Get current time with target timezone offset
+            const date = new Date();
+            const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
+            const cityTime = new Date(utcTime + (timezone * 1000));
+
+            setLocalTime(format(cityTime, "HH:mm:ss"));
+            setCurrentDay(format(cityTime, "eeee"));
         };
 
         updateTime();

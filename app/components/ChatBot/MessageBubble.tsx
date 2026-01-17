@@ -161,7 +161,15 @@ const MessageBubble = ({ message, isLoading = false, isDark = true }: MessageBub
                         
                         {/* Bottom container for timestamp and copy button */}
                         <div className="flex items-center justify-between mt-1">
-                            {/* Copy button for assistant messages - now at bottom left */}
+                            {/* Timestamp aligned to the left/right depending on message type */}
+                            <p className={`text-[0.65rem] ${isUser
+                                ? isDark ? 'text-blue-200' : 'text-blue-100'
+                                : isDark ? 'text-gray-400' : 'text-slate-500'
+                                }`}>
+                                {format(message.timestamp, 'HH:mm')}
+                            </p>
+
+                            {/* Copy button for assistant messages */}
                             {!isUser && (
                                 <button
                                     onClick={handleCopy}
@@ -181,14 +189,6 @@ const MessageBubble = ({ message, isLoading = false, isDark = true }: MessageBub
                                     <span className="text-[0.6rem]">{copied ? "Copied!" : "Copy"}</span>
                                 </button>
                             )}
-                            
-                            {/* Timestamp aligned to the right */}
-                            <p className={`text-[0.65rem] ${isUser
-                                ? isDark ? 'text-blue-200' : 'text-blue-100'
-                                : isDark ? 'text-gray-400' : 'text-slate-500'
-                                }`}>
-                                {format(message.timestamp, 'HH:mm')}
-                            </p>
                         </div>
                     </>
                 )}

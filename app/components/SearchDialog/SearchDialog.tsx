@@ -11,18 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Command, CommandInput } from "@/components/ui/command";
 import { Search, Trash2, Loader2 } from "lucide-react";
-import {
-    useGlobalContext,
-    useGlobalContextUpdate,
-} from "@/app/context/GlobalContext";
+import { useSearch } from "@/app/context/SearchContext";
+import { useLocation } from "@/app/context/LocationContext";
 import {
     useSearchHistory,
 } from "@/app/hooks/use-search-history";
 
+import { GeocodedLocation } from "@/app/types/weather";
+
 const SearchDialog: React.FC = () => {
-    const { geoCodedList, inputValue, setInputValue, handleInput, isSearchLoading } =
-        useGlobalContext();
-    const { setActiveCityCoords } = useGlobalContextUpdate();
+    const { geoCodedList, inputValue, setInputValue, handleInput, isSearchLoading } = useSearch();
+    const { setActiveCityCoords } = useLocation();
     const { history, addToHistory, removeFromHistory, clearHistory } =
         useSearchHistory();
 
@@ -32,13 +31,7 @@ const SearchDialog: React.FC = () => {
     useEffect(() => setHoveredIndex(0), [geoCodedList, inputValue]);
 
     const handleCitySelection = useCallback(
-        (item: {
-            lat: number;
-            lon: number;
-            name: string;
-            country: string;
-            state?: string;
-        }) => {
+        (item: GeocodedLocation) => {
             setActiveCityCoords([item.lat, item.lon]);
             setOpen(false);
             setInputValue("");
@@ -106,13 +99,7 @@ const SearchDialog: React.FC = () => {
                                     </li>
 
                                     {geoCodedList?.length ? (
-                                        geoCodedList.map((item: {
-                                            name: string;
-                                            country: string;
-                                            state: string;
-                                            lat: number;
-                                            lon: number;
-                                        }, index: number) => {
+                                        geoCodedList.map((item: GeocodedLocation, index: number) => {
                                             const isHovered = hoveredIndex === index;
                                             return (
                                                 <li

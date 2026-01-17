@@ -1,12 +1,12 @@
 "use client";
 
-import { useGlobalContext } from '@/app/context/GlobalContext';
+import { useForecast } from '@/app/hooks/useWeatherData';
 import { eye } from '@/app/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 function Visibility() {
-    const { forecast } = useGlobalContext();
+    const { data: forecast } = useForecast();
 
     if (!forecast || !forecast?.visibility) {
         return <Skeleton className='h-[12rem] w-full' />

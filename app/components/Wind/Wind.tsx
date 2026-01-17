@@ -1,13 +1,13 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext';
+import { useForecast } from '@/app/hooks/useWeatherData';
 import { wind } from '@/app/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import React from 'react'
 
 function Wind() {
-    const { forecast } = useGlobalContext();
+    const { data: forecast } = useForecast();
 
     const windSpeed = forecast?.wind?.speed;
     const windDir = forecast?.wind?.deg;

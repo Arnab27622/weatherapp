@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
-import { useGlobalContext } from '@/app/context/GlobalContext';
+import { useForecast } from '@/app/hooks/useWeatherData';
 
 function FlyToActiveCity({ activeCityCoords }: {
     activeCityCoords: {
@@ -27,7 +27,7 @@ function FlyToActiveCity({ activeCityCoords }: {
 };
 
 function Mapbox() {
-    const { forecast } = useGlobalContext();
+    const { data: forecast } = useForecast();
 
     const activeCityCoords = forecast?.coord;
 

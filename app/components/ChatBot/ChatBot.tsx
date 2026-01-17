@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useGlobalContext } from '@/app/context/GlobalContext';
+import { useForecast } from '@/app/hooks/useWeatherData';
 import MessageBubble from './MessageBubble';
 import { kelvinToCelsius, unixToTime } from '@/app/utils/misc';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,29 +14,6 @@ type Message = {
     timestamp: Date;
 };
 
-type ForecastData = {
-    name?: string;
-    main?: {
-        temp?: number;
-        feels_like?: number;
-        humidity?: number;
-        pressure?: number;
-    };
-    weather?: Array<{
-        description?: string;
-        icon?: string;
-    }>;
-    wind?: {
-        speed?: number;
-        deg?: number;
-    };
-    sys?: {
-        sunrise?: number;
-        sunset?: number;
-    };
-    dt?: number;
-    timezone?: number;
-};
 
 const ChatBot = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -48,8 +25,7 @@ const ChatBot = () => {
     const { theme } = useTheme();
     const isDark = theme === 'dark';
 
-    const context = useGlobalContext();
-    const forecast = context?.forecast as ForecastData | undefined;
+    const { data: forecast } = useForecast();
 
     // Load messages from localStorage
     useEffect(() => {
@@ -207,7 +183,6 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
         }
     }, [messages, handleSendMessage]);
 
-    console.log("ChatBot rendering, isOpen:", isOpen);
     return (
         <div className="fixed bottom-4 right-4 z-[9999]">
             <AnimatePresence>

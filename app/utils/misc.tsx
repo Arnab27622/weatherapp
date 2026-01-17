@@ -1,18 +1,21 @@
-import moment from "moment";
+import { fromUnixTime, format } from "date-fns";
 
 export const kelvinToCelsius = (kelvin: number) => {
   return Math.round(kelvin - 273.15);
 };
 
 export const unixToTime = (unix: number, timezone: number) => {
-  return moment
-    .unix(unix)
-    .utcOffset(timezone / 60)
-    .format("HH:mm");
+  // Use Intl.DateTimeFormat with UTC to skip local timezone interference after adding the offset
+  const date = new Date((unix + timezone) * 1000);
+  return new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC'
+  }).format(date);
 };
 
 export const unixToDay = (unix: number) => {
-  return moment.unix(unix).format("ddd");
+  return format(fromUnixTime(unix), "eee");
 };
 
 export const formatNumber = (num: number) => {

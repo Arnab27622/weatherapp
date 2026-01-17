@@ -3,11 +3,11 @@
 import React from 'react'
 import { Mapbox } from '../Mapbox/MapboxWrapper';
 import defaultStates from '@/app/utils/defaultStates';
-import { useGlobalContextUpdate } from '@/app/context/GlobalContext';
+import { useLocation } from '@/app/context/LocationContext';
 
 
 function Cities() {
-    const { setActiveCityCoords } = useGlobalContextUpdate();
+    const { setActiveCityCoords } = useLocation();
 
     const getClickedCityCords = (lat: number, lon: number) => {
         setActiveCityCoords([lat, lon]);

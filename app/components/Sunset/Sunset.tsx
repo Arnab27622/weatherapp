@@ -1,13 +1,13 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
+import { useForecast } from '@/app/hooks/useWeatherData';
 import { sunset } from '@/app/utils/Icons';
 import { unixToTime } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import React from 'react'
 
 function Sunset() {
-    const { forecast } = useGlobalContext();
+    const { data: forecast } = useForecast();
 
     if (!forecast || !forecast?.sys || !forecast?.sys?.sunset || !forecast?.sys?.sunrise || !forecast?.timezone) {
         return <Skeleton className='h-[12rem] w-full' />
