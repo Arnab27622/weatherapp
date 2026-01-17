@@ -16,7 +16,6 @@ function Visibility() {
 
     const getVisibilityInfo = (visibility: number) => {
         const km = visibility / 1000;
-        const roundedKm = Math.round(km);
 
         if (km >= 40) {
             return {

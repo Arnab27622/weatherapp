@@ -12,16 +12,128 @@ import {
 } from "../services/weatherService"
 import { toast } from "sonner"
 
-interface GlobalContextProps {
-    forecast: any
-    airQuality: any
-    fiveDayForecast: any
-    uvIndex: any
-    geoCodedList: any[]
+export interface Weather {
+    id: number;
+    main: string;
+    description: string;
+    icon: string;
+}
+
+export interface Forecast {
+    coord: { lon: number; lat: number };
+    weather: Weather[];
+    base: string;
+    main: {
+        temp: number;
+        feels_like: number;
+        temp_min: number;
+        temp_max: number;
+        pressure: number;
+        humidity: number;
+        sea_level?: number;
+        grnd_level?: number;
+    };
+    visibility: number;
+    wind: { speed: number; deg: number; gust?: number };
+    clouds: { all: number };
+    dt: number;
+    sys: {
+        type?: number;
+        id?: number;
+        country: string;
+        sunrise: number;
+        sunset: number;
+    };
+    timezone: number;
+    id: number;
+    name: string;
+    cod: number;
+}
+
+export interface ForecastItem {
+    dt: number;
+    main: {
+        temp: number;
+        feels_like: number;
+        temp_min: number;
+        temp_max: number;
+        pressure: number;
+        humidity: number;
+        temp_kf?: number;
+    };
+    weather: Weather[];
+    clouds: { all: number };
+    wind: { speed: number; deg: number; gust?: number };
+    visibility: number;
+    pop: number;
+    rain?: { "3h": number };
+    sys: { pod: string };
+    dt_txt: string;
+}
+
+export interface FiveDayForecast {
+    cod: string;
+    message: number;
+    cnt: number;
+    list: ForecastItem[];
+    city: {
+        id: number;
+        name: string;
+        coord: { lat: number; lon: number };
+        country: string;
+        population: number;
+        timezone: number;
+        sunrise: number;
+        sunset: number;
+    };
+}
+
+export interface AirQuality {
+    coord: number[];
+    list: {
+        dt: number;
+        main: { aqi: number };
+        components: {
+            co: number;
+            no: number;
+            no2: number;
+            o3: number;
+            so2: number;
+            pm2_5: number;
+            pm10: number;
+            nh3: number;
+        };
+    }[];
+}
+
+export interface UvIndex {
+    lat: number;
+    lon: number;
+    date_iso: string;
+    date: number;
+    result: {
+        uv: number;
+    }; // Matching the component's uvIndex.result.uv usage
+}
+
+export interface GlobalContextProps {
+    forecast: Partial<Forecast>
+    airQuality: Partial<AirQuality>
+    fiveDayForecast: Partial<FiveDayForecast>
+    uvIndex: Partial<UvIndex>
+    geoCodedList: {
+        name: string;
+        country: string;
+        state: string;
+        lat: number;
+        lon: number;
+    }[]
     inputValue: string
     setInputValue: React.Dispatch<React.SetStateAction<string>>
     handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void
     setActiveCityCoords: React.Dispatch<React.SetStateAction<number[]>>
+    isSearchLoading: boolean
+    isDebouncing: boolean
 }
 
 const GlobalContext = createContext<GlobalContextProps>({
@@ -34,9 +146,13 @@ const GlobalContext = createContext<GlobalContextProps>({
     setInputValue: () => { },
     handleInput: () => { },
     setActiveCityCoords: () => { },
+    isSearchLoading: false,
+    isDebouncing: false,
 })
 
-const GlobalContextUpdate = createContext<any>(null)
+const GlobalContextUpdate = createContext<{
+    setActiveCityCoords: React.Dispatch<React.SetStateAction<number[]>>
+} | null>(null)
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [inputValue, setInputValue] = useState("")
@@ -101,12 +217,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         return res
     }
 
-    const { data: geoCodedList = defaultStates } = useQuery({
-        queryKey: ["geocodedList", inputValue],
-        queryFn: () => fetchGeoCodedList(inputValue),
-        enabled: true, // Always enabled, will return defaultStates if empty via initialData or inside fetch logic logic
-        staleTime: 1000 * 60 * 5, // Cache results for 5 mins
-    })
+
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
@@ -131,12 +242,15 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         }
     }, [inputValue])
 
-    const { data: searchResults } = useQuery({
+    const { data: searchResults, isFetching: isSearchFetching } = useQuery({
         queryKey: ["geocodedList", debouncedSearch],
         queryFn: () => fetchGeoCodedList(debouncedSearch),
         initialData: defaultStates,
         enabled: true,
     })
+
+    const isDebouncing = inputValue !== debouncedSearch;
+    const isSearchLoading = isSearchFetching || isDebouncing;
 
     // Use searchResults or defaultStates based on input
     const finalGeoCodedList = (inputValue.trim() === "" && debouncedSearch === "")
@@ -156,6 +270,8 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 setInputValue,
                 handleInput,
                 setActiveCityCoords,
+                isSearchLoading,
+                isDebouncing,
             }}
         >
             <GlobalContextUpdate.Provider value={{ setActiveCityCoords }}>
@@ -166,4 +282,10 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 }
 
 export const useGlobalContext = () => useContext(GlobalContext)
-export const useGlobalContextUpdate = () => useContext(GlobalContextUpdate)
+export const useGlobalContextUpdate = () => {
+    const context = useContext(GlobalContextUpdate);
+    if (context === null) {
+        throw new Error("useGlobalContextUpdate must be used within a GlobalContextProvider");
+    }
+    return context;
+};

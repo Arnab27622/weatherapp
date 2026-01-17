@@ -63,7 +63,7 @@ function UvIndex() {
                     <p className="text-2xl">
                         <strong className={`${category.color}`}>{uvIndexMax}</strong>
                         <span className='text-sm'>
-                            ({uvIndexCategory(uvIndexMax).text})
+                            ({uvIndexCategory(uvIndexValue).text})
                         </span>
                     </p>
                     <UvProgress

@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
+import { ForecastItem, useGlobalContext } from '@/app/context/GlobalContext'
 import { clearSky, cloudFog, cloudLightning, cloudy, drizzleIcon, rain, snow } from '@/app/utils/Icons';
 import { kelvinToCelsius } from '@/app/utils/misc';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
@@ -21,7 +21,7 @@ function DailyForecast() {
     const todayString = today.toISOString().split("T")[0];
 
     const todaysForecast = list.filter(
-        (forecastItem: { dt_txt: string }) =>
+        (forecastItem: ForecastItem) =>
             forecastItem.dt_txt.startsWith(todayString)
     );
 
@@ -57,7 +57,7 @@ function DailyForecast() {
                     <div className='w-full'>
                         <Carousel>
                             <CarouselContent>
-                                {todaysForecast.map((forecastItem: any) => {
+                                {todaysForecast.map((forecastItem: ForecastItem) => {
                                     const time = moment(forecastItem.dt_txt).format("HH:mm");
                                     const temp = kelvinToCelsius(forecastItem.main.temp);
                                     const icon = getIcon(forecastItem.weather[0].main);

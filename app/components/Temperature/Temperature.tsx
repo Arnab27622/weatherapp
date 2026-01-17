@@ -38,13 +38,13 @@ function Temperature() {
         return () => clearInterval(interval);
     }, [timezone]);
 
-    if (!forecast || !weather) {
+    if (!forecast || !weather || !main || !main.temp || !main.temp_min || !main.temp_max) {
         return <Skeleton className='h-[12rem] w-full' />
     }
 
-    const temp = kelvinToCelsius(main?.temp);
-    const minTemp = kelvinToCelsius(main?.temp_min);
-    const maxTemp = kelvinToCelsius(main?.temp_max);
+    const temp = kelvinToCelsius(main.temp);
+    const minTemp = kelvinToCelsius(main.temp_min);
+    const maxTemp = kelvinToCelsius(main.temp_max);
 
     const { main: weatherMain, description } = weather[0];
 

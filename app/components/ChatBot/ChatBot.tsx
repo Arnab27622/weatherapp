@@ -118,7 +118,7 @@ const ChatBot = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen]);
 
-    const handleSendMessage = async () => {
+    const handleSendMessage = useCallback(async () => {
         if (!inputValue.trim() || isLoading || inputValue.length > 300) return;
 
         const userMessage: Message = {
@@ -171,7 +171,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
             }
 
             const data = await response.json();
-            let aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text ||
+            const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text ||
                 "Sorry, I couldn't process your question. Could you try asking differently?";
 
             const aiMessage: Message = {
@@ -183,9 +183,10 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
 
             setMessages(prev => [...prev, aiMessage]);
         } catch (error) {
+            console.error('Chat error:', error);
             const errorMessage: Message = {
-                id: `error-${Date.now()}`,
-                content: "I'm having trouble connecting right now. Would you like to try again?",
+                id: `err-${Date.now()}`,
+                content: "I'm having trouble connecting to the AI service. Please try again in a moment.",
                 role: 'assistant',
                 timestamp: new Date(),
             };
@@ -193,7 +194,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [inputValue, isLoading, forecast]);
 
     const handleNewChat = () => {
         setMessages([]);
@@ -274,7 +275,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                         </svg>
                                     </div>
                                     <p className={`mt-2 text-sm font-medium ${isDark ? 'text-gray-200' : 'text-slate-800'
-                                        }`}>Hi! I'm your weather assistant</p>
+                                        }`}>Hi! I&apos;m your weather assistant</p>
                                     <p className={`mt-1 text-xs ${isDark ? 'text-gray-500' : 'text-slate-500'}`}>
                                         Ask me anything about the weather!
                                     </p>
@@ -283,7 +284,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                             ? 'text-gray-600 bg-gray-800'
                                             : 'text-slate-500 bg-slate-100'
                                             } px-2 py-1 rounded-full`}>
-                                            Try: "What should I wear today?"
+                                            Try: &quot;What should I wear today?&quot;
                                         </div>
                                     </div>
                                     <p className={`text-xs mt-2 ${isDark ? 'text-gray-500' : 'text-slate-500'

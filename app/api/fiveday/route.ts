@@ -1,4 +1,3 @@
-import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -18,7 +17,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(dailyData);
 
     } catch (error) {
-        console.log("Error getting daily data.");
+        console.log("Error getting daily data.", error);
         return new Response("Error in getting the daily data.", { status: 500 });
     }
 };

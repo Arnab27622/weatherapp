@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/GlobalContext'
+import { ForecastItem, useGlobalContext } from '@/app/context/GlobalContext'
 import { calender } from '@/app/utils/Icons'
 import { kelvinToCelsius, unixToDay } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -15,11 +15,11 @@ function FiveDayForecast() {
         return <Skeleton className='h-[12rem] w-full' />
     }
 
-    const processData = (dailyData: { main: { temp_min: number, temp_max: number }; dt: number; }[]) => {
+    const processData = (dailyData: ForecastItem[]) => {
         let minTemp = Number.MAX_VALUE;
         let maxTemp = Number.MIN_VALUE;
 
-        dailyData.forEach((day: { main: { temp_min: number, temp_max: number }; dt: number; }) => {
+        dailyData.forEach((day: ForecastItem) => {
             if (day.main.temp_min < minTemp) {
                 minTemp = day.main.temp_min;
             }

@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
         return NextResponse.json(res.data);
     } catch (error) {
-        console.log("Error fetching the pollution data");
+        console.log("Error fetching the pollution data", error);
         return new Response("Error fetching the pollution data", { status: 500 });
     }
 }

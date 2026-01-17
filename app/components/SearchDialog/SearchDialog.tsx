@@ -10,18 +10,17 @@ import React, {
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Command, CommandInput } from "@/components/ui/command";
-import { Search, Trash2 } from "lucide-react";
+import { Search, Trash2, Loader2 } from "lucide-react";
 import {
     useGlobalContext,
     useGlobalContextUpdate,
 } from "@/app/context/GlobalContext";
 import {
     useSearchHistory,
-    SearchHistoryItem,
 } from "@/app/hooks/use-search-history";
 
 const SearchDialog: React.FC = () => {
-    const { geoCodedList, inputValue, setInputValue, handleInput } =
+    const { geoCodedList, inputValue, setInputValue, handleInput, isSearchLoading } =
         useGlobalContext();
     const { setActiveCityCoords } = useGlobalContextUpdate();
     const { history, addToHistory, removeFromHistory, clearHistory } =
@@ -85,14 +84,21 @@ const SearchDialog: React.FC = () => {
 
                 <DialogContent className="p-0 z-1100">
                     <Command className="rounded-lg border shadow-md">
-                        <CommandInput
-                            placeholder="Type a command or search"
-                            value={inputValue}
-                            onChangeCapture={onInputChange}
-                            className="text-sm sm:text-base"
-                        />
+                        <div className="relative">
+                            <CommandInput
+                                placeholder="Type a command or search"
+                                value={inputValue}
+                                onChangeCapture={onInputChange}
+                                className="text-sm sm:text-base"
+                            />
+                            {isSearchLoading && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                                </div>
+                            )}
+                        </div>
 
-                        <ul className="px-2 sm:px-3 pb-2">
+                        <ul className={`px-2 sm:px-3 pb-2 transition-opacity duration-200 ${isSearchLoading ? 'opacity-50' : 'opacity-100'}`}>
                             {inputValue ? (
                                 <>
                                     <li className="p-2 text-sm text-muted-foreground">
