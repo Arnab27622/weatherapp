@@ -16,9 +16,37 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Project Structure
+
+```
+weatherapp/
+├── public/                     # Static assets (images, fonts, etc.)
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── api/               # API routes
+│   │   ├── layout.tsx         # Root layout
+│   │   ├── page.tsx           # Home page
+│   │   ├── globals.css        # Global styles
+│   │   └── error.tsx          # Error boundary
+│   ├── components/            # React components
+│   │   ├── ui/                # UI primitives (shadcn/ui)
+│   │   └── [Feature]/         # Feature-specific components
+│   ├── constants/             # App constants and configuration
+│   ├── context/               # React Context providers
+│   ├── hooks/                 # Custom React hooks
+│   ├── lib/                   # Utility functions (shadcn/ui)
+│   ├── providers/             # App-level providers (Theme, Query)
+│   ├── services/              # API service functions
+│   ├── types/                 # TypeScript type definitions
+│   └── utils/                 # Utility functions and helpers
+├── components.json            # shadcn/ui configuration
+├── tsconfig.json              # TypeScript configuration
+└── package.json               # Project dependencies
+```
 
 ## Learn More
 
