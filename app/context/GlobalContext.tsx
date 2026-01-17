@@ -10,6 +10,7 @@ import {
     fetchUvIndex,
     fetchGeoCodedList as fetchGeoCodedListAPI
 } from "../services/weatherService"
+import { toast } from "sonner"
 
 interface GlobalContextProps {
     forecast: any
@@ -68,23 +69,30 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         enabled: !!lat && !!lon,
     })
 
-    const { data: airQuality } = useQuery({
+    const { data: airQuality, isError: isErrorAirQuality } = useQuery({
         queryKey: ["airQuality", lat, lon],
         queryFn: () => fetchAirQuality(lat, lon),
         enabled: !!lat && !!lon,
     })
 
-    const { data: fiveDayForecast } = useQuery({
+    const { data: fiveDayForecast, isError: isErrorFiveDay } = useQuery({
         queryKey: ["fiveDayForecast", lat, lon],
         queryFn: () => fetchFiveDayForecast(lat, lon),
         enabled: !!lat && !!lon,
     })
 
-    const { data: uvIndex } = useQuery({
+    const { data: uvIndex, isError: isErrorUv } = useQuery({
         queryKey: ["uvIndex", lat, lon],
         queryFn: () => fetchUvIndex(lat, lon),
         enabled: !!lat && !!lon,
     })
+
+    // Notify about errors
+    useEffect(() => {
+        if (isErrorAirQuality || isErrorFiveDay || isErrorUv) {
+            toast.error("Could not fetch some weather data. Please try again later.")
+        }
+    }, [isErrorAirQuality, isErrorFiveDay, isErrorUv])
 
     // Search Geocoded List
     const fetchGeoCodedList = async (search: string) => {
