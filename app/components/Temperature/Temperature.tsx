@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/globalContext'
+import { useGlobalContext } from '@/app/context/GlobalContext'
 import {
     clearSky,
     cloudy,

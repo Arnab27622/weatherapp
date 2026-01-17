@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useGlobalContext } from '@/app/context/globalContext';
+import { useGlobalContext } from '@/app/context/GlobalContext';
 import MessageBubble from './MessageBubble';
 import { kelvinToCelsius, unixToTime } from '@/app/utils/misc';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -75,7 +75,7 @@ const ChatBot = () => {
             if (container) {
                 // Always scroll to bottom when user sends a new message
                 const lastMessageIsUser = messages.length > 0 && messages[messages.length - 1].role === 'user';
-                
+
                 if (lastMessageIsUser || messages.length <= 1) {
                     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
                 } else {
@@ -208,8 +208,9 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
         }
     }, [messages, handleSendMessage]);
 
+    console.log("ChatBot rendering, isOpen:", isOpen);
     return (
-        <div className="fixed bottom-4 right-4 z-[1000]">
+        <div className="fixed bottom-4 right-4 z-[9999]">
             <AnimatePresence>
                 {isOpen ? (
                     <motion.div

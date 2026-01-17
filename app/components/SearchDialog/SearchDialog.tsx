@@ -14,7 +14,7 @@ import { Search, Trash2 } from "lucide-react";
 import {
     useGlobalContext,
     useGlobalContextUpdate,
-} from "@/app/context/globalContext";
+} from "@/app/context/GlobalContext";
 import {
     useSearchHistory,
     SearchHistoryItem,

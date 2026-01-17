@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/globalContext'
+import { useGlobalContext } from '@/app/context/GlobalContext'
 import { thermo } from '@/app/utils/Icons';
 import { airQualityIndexText } from '@/app/utils/misc';
 import { Progress } from '@/components/ui/progress';

@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/globalContext';
+import { useGlobalContext } from '@/app/context/GlobalContext';
 import { wind } from '@/app/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';

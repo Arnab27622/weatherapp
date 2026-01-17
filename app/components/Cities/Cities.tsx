@@ -3,7 +3,7 @@
 import React from 'react'
 import { Mapbox } from '../Mapbox/MapboxWrapper';
 import defaultStates from '@/app/utils/defaultStates';
-import { useGlobalContextUpdate } from '@/app/context/globalContext';
+import { useGlobalContextUpdate } from '@/app/context/GlobalContext';
 
 
 function Cities() {

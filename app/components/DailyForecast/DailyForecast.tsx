@@ -1,6 +1,6 @@
 "use client"
 
-import { useGlobalContext } from '@/app/context/globalContext'
+import { useGlobalContext } from '@/app/context/GlobalContext'
 import { clearSky, cloudFog, cloudLightning, cloudy, drizzleIcon, rain, snow } from '@/app/utils/Icons';
 import { kelvinToCelsius } from '@/app/utils/misc';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';

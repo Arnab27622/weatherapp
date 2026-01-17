@@ -1,6 +1,6 @@
 "use client";
 
-import { useGlobalContext } from '@/app/context/globalContext';
+import { useGlobalContext } from '@/app/context/GlobalContext';
 import { thermometer } from '@/app/utils/Icons';
 import { kelvinToCelsius } from '@/app/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
