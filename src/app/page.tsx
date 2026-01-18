@@ -31,9 +31,9 @@ export default function Home() {
       <SearchProvider>
         <main className="min-h-screens">
           <Navbar />
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
             <div className="pb-4 flex flex-col gap-4 md:flex-row mt-6">
-              <div className="flex flex-col gap-4 w-full min-w-[18rem] md:w-[35rem]">
+              <div className="flex flex-col gap-4 w-full min-w-[18rem] md:w-140">
                 <Temperature />
                 <Suspense fallback={<ComponentSkeleton />}>
                   <FiveDayForecast />

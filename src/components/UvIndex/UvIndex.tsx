@@ -3,7 +3,6 @@
 import { useUvIndex } from '@/hooks/useWeatherData';
 import { sun } from '@/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 import { UvProgress } from '../UvProgress/UvProgress';
 
 function UvIndex() {
@@ -11,7 +10,7 @@ function UvIndex() {
 
     if (!uvIndex || !uvIndex.result) {
         return (
-            <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 md:gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+            <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 md:gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
                 <div className="top">
                     <Skeleton className="h-6 w-28 mb-2" />
                     <div className="pt-2 flex flex-col gap-1">
@@ -68,7 +67,7 @@ function UvIndex() {
     const category = uvIndexCategory(uvIndexValue);
 
     return (
-        <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 md:gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none'>
+        <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 md:gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <div className="top">
                 <h2 className='flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300'>
                     {sun} UV Index

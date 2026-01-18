@@ -45,7 +45,7 @@ function Temperature() {
 
     if (!forecast || !weather || !main || !main.temp || !main.temp_min || !main.temp_max) {
         return (
-            <div className="pt-7 pb-6 px-4 border rounded-lg flex flex-col justify-between h-[20rem] dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden">
+            <div className="pt-7 pb-6 px-4 border rounded-lg flex flex-col justify-between h-80 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden">
                 <div className="flex justify-between items-center">
                     <Skeleton className="h-6 w-24 rounded-md" />
                     <Skeleton className="h-6 w-24 rounded-md" />

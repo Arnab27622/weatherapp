@@ -6,7 +6,6 @@ import { useUnit } from '@/context/UnitContext';
 import { convertWindSpeed } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
-import React from 'react'
 
 function Wind() {
     const { data: forecast } = useForecast();
@@ -17,7 +16,7 @@ function Wind() {
 
     if (!forecast || !windSpeed || !windDir) {
         return (
-            <div className='pt-3 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+            <div className='pt-3 px-4 h-42 border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
                 <Skeleton className="h-6 w-24" />
                 <div className="flex items-center justify-center mt-2">
                     <Skeleton className="h-24 w-24 rounded-full" />
@@ -30,7 +29,7 @@ function Wind() {
     const unitSymbol = unit === 'imperial' ? 'mph' : 'm/s';
 
     return (
-        <div className='pt-3 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none'>
+        <div className='pt-3 px-4 h-42 border rounded-lg flex flex-col gap-2 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <h2 className='flex items-center gap-2 font-medium text-gray-700 dark:text-gray-300'>
                 {wind} Wind
             </h2>

@@ -76,6 +76,7 @@ const SearchDialog: React.FC = () => {
                     <Button
                         variant="outline"
                         className="border inline-flex items-center justify-start text-sm font-medium hover:dark:bg-[#0f0f0f] hover:bg-slate-100 ease-in-out duration-200 p-2 cursor-pointer"
+                        aria-label="Search cities"
                     >
                         <Search className="h-6 w-6 text-muted-foreground" />
                     </Button>
@@ -114,6 +115,14 @@ const SearchDialog: React.FC = () => {
                                                         }`}
                                                     onMouseEnter={() => setHoveredIndex(index)}
                                                     onClick={() => handleCitySelection(item)}
+                                                    role="button"
+                                                    tabIndex={0}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter' || e.key === ' ') {
+                                                            e.preventDefault();
+                                                            handleCitySelection(item);
+                                                        }
+                                                    }}
                                                 >
                                                     <Search className="mr-2 h-4 w-4" />
                                                     <span className="text-xs sm:text-sm">
@@ -142,6 +151,7 @@ const SearchDialog: React.FC = () => {
                                                 e.stopPropagation();
                                                 clearHistory();
                                             }}
+                                            aria-label="Clear all search history"
                                         >
                                             Clear All
                                         </Button>
@@ -164,6 +174,20 @@ const SearchDialog: React.FC = () => {
                                                         state: item.state,
                                                     })
                                                 }
+                                                role="button"
+                                                tabIndex={0}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                        e.preventDefault();
+                                                        handleCitySelection({
+                                                            lat: item.lat,
+                                                            lon: item.lon,
+                                                            name: item.name,
+                                                            country: item.country,
+                                                            state: item.state,
+                                                        });
+                                                    }
+                                                }}
                                             >
                                                 <div className="flex items-center">
                                                     <Search className="mr-2 h-4 w-4" />
@@ -180,6 +204,7 @@ const SearchDialog: React.FC = () => {
                                                     onClick={(e) =>
                                                         handleDeleteHistoryItem(e, item.id)
                                                     }
+                                                    aria-label="Delete history item"
                                                 >
                                                     <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 </Button>

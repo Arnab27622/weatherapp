@@ -12,7 +12,7 @@ function Navbar() {
   const { unit, toggleUnit } = useUnit()
 
   return (
-    <div className="sticky top-0 z-1140 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2">
+    <div className="sticky top-0 z-1140 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 py-2">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {theme === 'dark' ? (
           <Image
@@ -39,7 +39,8 @@ function Navbar() {
               variant="outline"
               size="icon"
               onClick={toggleUnit}
-              className="text-lg"
+              className="text-lg cursor-pointer"
+              aria-label="Toggle Unit"
             >
               {unit === 'metric' ? '°C' : '°F'}
             </Button>

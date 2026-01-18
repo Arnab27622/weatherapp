@@ -4,14 +4,13 @@ import { useForecast } from '@/hooks/useWeatherData';
 import { sunset } from '@/utils/Icons';
 import { unixToTime } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 
 function Sunset() {
     const { data: forecast } = useForecast();
 
     if (!forecast || !forecast?.sys || !forecast?.sys?.sunset || !forecast?.sys?.sunrise || !forecast?.timezone) {
         return (
-            <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+            <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
                 <div className="top">
                     <Skeleton className="h-6 w-24 mb-2" />
                     <Skeleton className="h-10 w-24" />
@@ -27,7 +26,7 @@ function Sunset() {
     const sunsetTime = unixToTime(times, timezone);
     const sunriseTime = unixToTime(forecast.sys.sunrise, timezone);
     return (
-        <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none'>
+        <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <div className="top">
                 <h2 className='flex items-center gap-2 font-medium text-amber-700 dark:text-amber-300'>
                     {sunset}Sunset

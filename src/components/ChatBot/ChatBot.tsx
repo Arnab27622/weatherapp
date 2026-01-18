@@ -184,7 +184,7 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
     }, [messages, handleSendMessage]);
 
     return (
-        <div className="fixed bottom-4 right-4 z-[9999]">
+        <div className="fixed bottom-4 right-4 z-9999">
             <AnimatePresence>
                 {isOpen ? (
                     <motion.div
@@ -192,14 +192,14 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
                         className={`w-full max-w-md rounded-xl shadow-2xl overflow-hidden flex flex-col border ${isDark
-                            ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700'
-                            : 'bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200'
+                            ? 'bg-linear-to-br from-gray-800 to-gray-900 border-gray-700'
+                            : 'bg-linear-to-br from-slate-50 to-slate-100 border-slate-200'
                             }`}
                         style={{ maxWidth: 'calc(100vw - 2rem)', maxHeight: 'calc(100vh - 4rem)' }}
                     >
                         <div className={`p-3 flex justify-between items-center ${isDark
-                            ? 'bg-gradient-to-r from-blue-700 to-indigo-800'
-                            : 'bg-gradient-to-r from-blue-500 to-indigo-500'
+                            ? 'bg-linear-to-r from-blue-700 to-indigo-800'
+                            : 'bg-linear-to-r from-blue-500 to-indigo-500'
                             }`}>
                             <div className="flex items-center gap-2">
                                 <div className={`rounded-full p-1 ${isDark ? 'bg-blue-500' : 'bg-blue-400'
@@ -231,8 +231,8 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                         </div>
 
                         <div className={`flex-1 overflow-y-auto p-2 max-h-[50vh] sm:max-h-[40vh] ${isDark
-                            ? 'bg-gradient-to-b from-gray-900 to-gray-900'
-                            : 'bg-gradient-to-b from-slate-50 to-slate-50'
+                            ? 'bg-linear-to-b from-gray-900 to-gray-900'
+                            : 'bg-linear-to-b from-slate-50 to-slate-50'
                             }`}>
                             {messages.length === 0 ? (
                                 <motion.div
@@ -343,8 +343,8 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                                             ? 'bg-gray-600 text-gray-400'
                                             : 'bg-slate-200 text-slate-400'
                                         : isDark
-                                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90'
-                                            : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:opacity-90'
+                                            ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90'
+                                            : 'bg-linear-to-r from-blue-500 to-indigo-500 text-white hover:opacity-90'
                                         }`}
                                     aria-label={isLoading ? "Sending message" : "Send message"}
                                 >
@@ -371,8 +371,8 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsOpen(true)}
                         className={`rounded-full p-3 shadow-xl transition-all ${isDark
-                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
-                            : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white'
+                            ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white'
+                            : 'bg-linear-to-r from-blue-500 to-indigo-500 text-white'
                             }`}
                         aria-label="Open chat"
                     >

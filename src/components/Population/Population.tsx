@@ -4,13 +4,12 @@ import { useFiveDayForecast } from '@/hooks/useWeatherData';
 import { people } from '@/utils/Icons';
 import { formatNumber } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 
 function Population() {
     const { data: fiveDayForecast } = useFiveDayForecast();
     if (!fiveDayForecast || !fiveDayForecast.city) {
         return (
-            <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 md:gap-6 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+            <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 md:gap-6 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
                 <div className="top">
                     <Skeleton className="h-6 w-28 mb-2" />
                     <Skeleton className="h-10 w-24" />
@@ -23,7 +22,7 @@ function Population() {
     const { city } = fiveDayForecast;
 
     return (
-        <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 md:gap-6 dark:bg-dark-grey shadow-sm dark:shadow-none'>
+        <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 md:gap-6 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <div className="top">
                 <h2 className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
                     {people} Population

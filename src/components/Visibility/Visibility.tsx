@@ -3,14 +3,13 @@
 import { useForecast } from '@/hooks/useWeatherData';
 import { eye } from '@/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 
 function Visibility() {
     const { data: forecast } = useForecast();
 
     if (!forecast || !forecast?.visibility) {
         return (
-            <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
+            <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none overflow-hidden'>
                 <div className="top">
                     <Skeleton className="h-6 w-24 mb-2" />
                     <Skeleton className="h-10 w-24" />
@@ -74,7 +73,7 @@ function Visibility() {
     const roundedKm = Math.round(visibility / 1000);
 
     return (
-        <div className='pt-5 px-4 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none'>
+        <div className='pt-5 px-4 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none'>
             <div className="top">
                 <h2 className="flex items-center gap-2 font-medium text-slate-700 dark:text-slate-300">
                     {eye} Visibility

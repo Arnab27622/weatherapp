@@ -19,10 +19,10 @@ function DailyForecast() {
 
     if (!fiveDayForecast || !city || !list || !forecast || !forecast.weather) {
         return (
-            <div className='pt-5 px-10 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2 overflow-hidden'>
+            <div className='pt-5 px-10 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2 overflow-hidden'>
                 <div className='h-full flex gap-10 overflow-hidden'>
                     {[1, 2, 3].map((_, i) => (
-                        <div key={i} className='flex flex-col gap-4 basis-[8.5rem] cursor-grab'>
+                        <div key={i} className='flex flex-col gap-4 basis-34 cursor-grab'>
                             <Skeleton className="h-4 w-12" />
                             <Skeleton className="h-8 w-8" />
                             <Skeleton className="h-4 w-12 mt-4" />
@@ -42,7 +42,7 @@ function DailyForecast() {
     );
 
     if (todaysForecast.length < 1) {
-        return <Skeleton className='h-[10.5rem] w-full col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2' />
+        return <Skeleton className='h-42 w-full col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2' />
     }
 
     const getIcon = (weatherMain: string) => {
@@ -67,7 +67,7 @@ function DailyForecast() {
     };
 
     return (
-        <div className='pt-5 px-10 h-[10.5rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2'>
+        <div className='pt-5 px-10 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2'>
             <div className="h-full flex gap-10 overflow-hidden">
                 {todaysForecast.length < 1 ? ('') : (
                     <div className='w-full'>
@@ -78,7 +78,7 @@ function DailyForecast() {
                                     const icon = getIcon(forecastItem.weather[0].main);
 
                                     return (
-                                        <CarouselItem className='flex flex-col gap-4 basis-[8.5rem] cursor-grab' key={forecastItem.dt_txt}>
+                                        <CarouselItem className='flex flex-col gap-4 basis-34 cursor-grab' key={forecastItem.dt_txt}>
                                             <p className="text-gray-600 dark:text-gray-400">{time}</p>
                                             <p>{icon}</p>
                                             <p className='mt-4 text-sky-700 dark:text-sky-300'>{convertTemperature(forecastItem.main.temp, unit)}°{unit === 'imperial' ? 'F' : 'C'}</p>

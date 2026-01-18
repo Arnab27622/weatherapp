@@ -5,7 +5,6 @@ import { useFiveDayForecast } from '@/hooks/useWeatherData';
 import { calender } from '@/utils/Icons'
 import { convertTemperature, unixToDay } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 import { useUnit } from '@/context/UnitContext';
 
 function FiveDayForecast() {
@@ -75,7 +74,7 @@ function FiveDayForecast() {
                 <div className="forecast-list pt-3">{
                     dailyForecasts.map((day, index) => {
                         return <div key={index} className='daily-forecast py-4 flex flex-col justify-evenly border-b-2'>
-                            <p className='text-2xl min-w-[3.5rem] text-slate-700 dark:text-slate-300'>{day.day}</p>
+                            <p className='text-2xl min-w-14 text-slate-700 dark:text-slate-300'>{day.day}</p>
                             <p className='text-sm flex justify-between'>
                                 <span className='text-blue-500'>(Low)</span>
                                 <span className='text-red-500'>(High)</span>
