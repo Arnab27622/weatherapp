@@ -1,3 +1,9 @@
+/**
+ * Air Pollution Component
+ * Displays the current air quality index (AQI) using a progress bar and descriptive text.
+ * Fetches data based on the active location and maps the AQI to a human-readable rating.
+ */
+
 "use client"
 
 import { useAirQuality } from '@/hooks/useWeatherData';
@@ -6,6 +12,10 @@ import { airQualityIndexText } from '@/constants/config';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * AirPollution component
+ * Renders a card showing the air quality status of the current city.
+ */
 function AirPollution() {
     const { data: airQuality } = useAirQuality();
 

@@ -1,9 +1,19 @@
+/**
+ * Humidity Component
+ * Displays the current relative humidity percentage and provides descriptive
+ * feedback on comfort levels and potential health impacts.
+ */
+
 "use client";
 
 import { useForecast } from '@/hooks/useWeatherData';
 import { droplets } from '@/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * Humidity component
+ * Monitors and displays humidity metrics with dynamic feedback based on the percentage level.
+ */
 function Humidity() {
     const { data: forecast } = useForecast();
 
@@ -21,6 +31,9 @@ function Humidity() {
 
     const { humidity } = forecast?.main;
 
+    /**
+     * Maps humidity levels to descriptive text and color-coded status
+     */
     const getHumidityInfo = (humidity: number) => {
         if (humidity < 20) return {
             text: "Very Dry: May cause skin, eye, and respiratory irritation.",

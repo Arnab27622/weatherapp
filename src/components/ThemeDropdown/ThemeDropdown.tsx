@@ -1,9 +1,19 @@
+/**
+ * Theme Dropdown Component
+ * A simple button that toggles between light and dark themes using next-themes.
+ * Features a smooth icon transition between the sun and moon.
+ */
+
 "use client"
 
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 
+/**
+ * ThemeDropdown component
+ * Provides a UI trigger to switch the application's visual theme.
+ */
 function ThemeDropdown() {
     const { theme, setTheme } = useTheme()
 

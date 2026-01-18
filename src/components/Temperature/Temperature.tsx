@@ -1,3 +1,9 @@
+/**
+ * Component that displays the current temperature and basic weather info.
+ * Includes current location, local time, weather icon, and min/max temperatures.
+ * Supports unit conversion and responsive skeletons for loading states.
+ */
+
 "use client"
 
 import { useForecast } from '@/hooks/useWeatherData'
@@ -10,6 +16,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useUnit } from '@/context/UnitContext';
 import { useCityTime } from '@/hooks/useCityTime';
 
+/**
+ * Temperature component
+ * Fetches forecast data and displays core weather metrics for the active city.
+ */
 function Temperature() {
     const { data: forecast } = useForecast();
     const { unit } = useUnit();

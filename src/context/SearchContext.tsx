@@ -1,3 +1,9 @@
+/**
+ * Search Context
+ * Manages the state and logic for city searching, including input debouncing,
+ * geocoding API integration, and city selection.
+ */
+
 "use client"
 
 import { createContext, useContext, useState, useEffect } from "react"
@@ -13,12 +19,17 @@ import { useSearchHistory } from "@/hooks/use-search-history"
 
 const SearchContext = createContext<SearchContextProps | undefined>(undefined)
 
+/**
+ * SearchProvider component
+ * Provides search-related state (input value, results, loading status) to the application.
+ */
 export const SearchProvider = ({ children }: ProviderProps) => {
     const [inputValue, setInputValue] = useState("")
     const [debouncedSearch, setDebouncedSearch] = useState("")
     const { setActiveCityCoords } = useLocation()
     const { addToHistory } = useSearchHistory()
 
+    // Debounce search input to avoid excessive API calls
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearch(inputValue)
@@ -40,6 +51,9 @@ export const SearchProvider = ({ children }: ProviderProps) => {
         setInputValue(value)
     }
 
+    /**
+     * Completes city selection: updates coordinates, clears input, and adds to history
+     */
     const handleCitySelection = (item: GeocodedLocation) => {
         setActiveCityCoords([item.lat, item.lon]);
         setInputValue("");
@@ -74,6 +88,10 @@ export const SearchProvider = ({ children }: ProviderProps) => {
     )
 }
 
+/**
+ * Custom hook to consume the SearchContext
+ * @throws Error if used outside of a SearchProvider
+ */
 export const useSearch = () => {
     const context = useContext(SearchContext)
     if (!context) {

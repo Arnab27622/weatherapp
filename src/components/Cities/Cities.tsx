@@ -1,13 +1,27 @@
+/**
+ * Cities Component
+ * Displays a map visualization (Mapbox) alongside a list of major global cities.
+ * Allows users to quickly switch between locations by clicking on city cards.
+ */
+
 "use client";
 
 import { Mapbox } from '../Mapbox/MapboxWrapper';
 import defaultStates from '@/utils/defaultStates';
 import { useLocation } from '@/context/LocationContext';
 
-
+/**
+ * Cities component
+ * Renders the map and the sidebar with top large cities.
+ */
 function Cities() {
     const { setActiveCityCoords } = useLocation();
 
+    /**
+     * Updates the active coordinates and scrolls the window to the top
+     * @param lat - Latitude of the selected city
+     * @param lon - Longitude of the selected city
+     */
     const getClickedCityCords = (lat: number, lon: number) => {
         setActiveCityCoords([lat, lon]);
 

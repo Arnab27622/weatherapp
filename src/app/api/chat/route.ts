@@ -1,6 +1,17 @@
+/**
+ * API Route: /api/chat
+ * Integrates with Google Gemini API to provide an AI-powered weather assistant.
+ */
+
 import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/utils/logger";
 
+/**
+ * Handles POST requests for the AI ChatBot
+ * Proxies requests to Google Gemini API to securely manage the API key.
+ * @param req - The incoming NextRequest containing the chat conversation contents
+ * @returns NextResponse with AI-generated content or error message
+ */
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();

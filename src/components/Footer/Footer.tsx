@@ -1,7 +1,16 @@
+/**
+ * Footer Component
+ * A simple, consistent footer displaying branding and developer credit.
+ */
+
 "use client";
 
 import Image from 'next/image';
 
+/**
+ * Footer component
+ * @returns Responsive footer containing developer info and logo
+ */
 function Footer() {
     return (
         <footer className="flex justify-center pb-15 md:pb-8 py-4">

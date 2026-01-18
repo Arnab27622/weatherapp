@@ -1,3 +1,9 @@
+/**
+ * Wind Component
+ * Displays the current wind speed and direction using a visual compass.
+ * Supports unit conversion between metric (m/s) and imperial (mph).
+ */
+
 "use client"
 
 import { useForecast } from '@/hooks/useWeatherData';
@@ -7,6 +13,10 @@ import { convertWindSpeed } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 
+/**
+ * Wind component
+ * Orchestrates the compass visualization and wind speed data display.
+ */
 function Wind() {
     const { data: forecast } = useForecast();
     const { unit } = useUnit();

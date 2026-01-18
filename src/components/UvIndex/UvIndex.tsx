@@ -1,3 +1,9 @@
+/**
+ * UV Index Component
+ * Displays the current UV radiation level and provides safety recommendations.
+ * Uses a custom progress bar to visualize the intensity and color-codes the risk level.
+ */
+
 "use client"
 
 import { useUvIndex } from '@/hooks/useWeatherData';
@@ -5,6 +11,10 @@ import { sun } from '@/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UvProgress } from '../UvProgress/UvProgress';
 
+/**
+ * UvIndex component
+ * Fetches UV data and categorizes it into risk levels (Low to Extremely High).
+ */
 function UvIndex() {
     const { data: uvIndex } = useUvIndex();
 
@@ -29,6 +39,9 @@ function UvIndex() {
     const uvIndexValue = uvIndex.result.uv;
     const uvIndexMax = uvIndexValue.toFixed(1);
 
+    /**
+     * Maps UV values to risk categories and provided health advice
+     */
     const uvIndexCategory = (uvIndex: number) => {
         if (uvIndex <= 2) {
             return {

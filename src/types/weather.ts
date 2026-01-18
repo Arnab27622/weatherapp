@@ -1,3 +1,6 @@
+/**
+ * Basic weather condition information
+ */
 export interface Weather {
     id: number;
     main: string;
@@ -5,6 +8,9 @@ export interface Weather {
     icon: string;
 }
 
+/**
+ * Current weather data structure from OpenWeatherMap API
+ */
 export interface Forecast {
     coord: { lon: number; lat: number };
     weather: Weather[];
@@ -36,6 +42,9 @@ export interface Forecast {
     cod: number;
 }
 
+/**
+ * Individual forecast item for specific time intervals (e.g., every 3 hours)
+ */
 export interface ForecastItem {
     dt: number;
     main: {
@@ -57,6 +66,9 @@ export interface ForecastItem {
     dt_txt: string;
 }
 
+/**
+ * 5-day weather forecast data structure
+ */
 export interface FiveDayForecast {
     cod: string;
     message: number;
@@ -74,6 +86,9 @@ export interface FiveDayForecast {
     };
 }
 
+/**
+ * Air quality data structure including pollutant concentrations
+ */
 export interface AirQuality {
     coord: number[];
     list: {
@@ -92,6 +107,9 @@ export interface AirQuality {
     }[];
 }
 
+/**
+ * UV Index data structure
+ */
 export interface UvIndex {
     lat: number;
     lon: number;
@@ -102,6 +120,9 @@ export interface UvIndex {
     };
 }
 
+/**
+ * Geocoded location information for a city/state
+ */
 export interface GeocodedLocation {
     name: string;
     local_names?: Record<string, string>;
@@ -111,6 +132,9 @@ export interface GeocodedLocation {
     state?: string;
 }
 
+/**
+ * Air Quality Index rating and descriptions
+ */
 export interface AirQualityIndexItem {
     rating: number;
     description: string;

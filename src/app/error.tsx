@@ -1,8 +1,19 @@
+/**
+ * Error Boundary Component
+ * A client-side error handling component that captures runtime errors in the component tree.
+ * Provides a user-friendly interface to recover (re-render) the failed segment.
+ */
+
 'use client'
 
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 
+/**
+ * Error component
+ * @param error - The captured error object with an optional digest for tracking
+ * @param reset - A function provided by Next.js to attempt re-rendering the segment
+ */
 export default function Error({
     error,
     reset,
@@ -11,7 +22,7 @@ export default function Error({
     reset: () => void
 }) {
     useEffect(() => {
-        // Log the error to an error reporting service
+        // Log the error for observability
         console.error(error)
     }, [error])
 
@@ -22,10 +33,7 @@ export default function Error({
                 An unexpected error occurred. Please try again or refresh the page.
             </p>
             <Button
-                onClick={
-                    // Attempt to recover by trying to re-render the segment
-                    () => reset()
-                }
+                onClick={() => reset()}
             >
                 Try again
             </Button>

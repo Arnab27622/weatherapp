@@ -1,3 +1,10 @@
+/**
+ * AI ChatBot Component
+ * An interactive weather assistant powered by Google Gemini.
+ * Features smooth animations with Framer Motion, keyboard shortcuts (Ctrl+K, Esc),
+ * and automatic scroll-to-bottom behavior.
+ */
+
 "use client";
 
 import { useRef, useEffect } from 'react';
@@ -8,6 +15,10 @@ import ChatBotHeader from './ChatBotHeader';
 import ChatBotMessages from './ChatBotMessages';
 import ChatBotInput from './ChatBotInput';
 
+/**
+ * ChatBot component
+ * Manages the UI state for the floating chat window and orchestrates sub-components.
+ */
 const ChatBot = () => {
     const {
         isOpen,

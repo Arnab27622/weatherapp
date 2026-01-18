@@ -1,3 +1,8 @@
+/**
+ * Custom hooks for fetching weather data using React Query.
+ * Each hook automatically uses the active city's coordinates from LocationContext.
+ */
+
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
@@ -12,6 +17,9 @@ import {
 const STALE_TIME = 5 * 60 * 1000; // 5 minutes
 const GC_TIME = 10 * 60 * 1000;   // 10 minutes
 
+/**
+ * Hook to fetch current weather forecast
+ */
 export const useForecast = () => {
     const { activeCityCoords } = useLocation();
     const [lat, lon] = activeCityCoords;
@@ -25,6 +33,9 @@ export const useForecast = () => {
     });
 };
 
+/**
+ * Hook to fetch air quality data
+ */
 export const useAirQuality = () => {
     const { activeCityCoords } = useLocation();
     const [lat, lon] = activeCityCoords;
@@ -38,6 +49,9 @@ export const useAirQuality = () => {
     });
 };
 
+/**
+ * Hook to fetch 5-day forecast data
+ */
 export const useFiveDayForecast = () => {
     const { activeCityCoords } = useLocation();
     const [lat, lon] = activeCityCoords;
@@ -51,6 +65,9 @@ export const useFiveDayForecast = () => {
     });
 };
 
+/**
+ * Hook to fetch UV Index data
+ */
 export const useUvIndex = () => {
     const { activeCityCoords } = useLocation();
     const [lat, lon] = activeCityCoords;

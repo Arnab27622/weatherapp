@@ -1,3 +1,9 @@
+/**
+ * Sunset Component
+ * Displays the sunset and sunrise times for the active city.
+ * Correctly adjusts for the city's local timezone.
+ */
+
 "use client"
 
 import { useForecast } from '@/hooks/useWeatherData';
@@ -5,6 +11,10 @@ import { sunset } from '@/utils/Icons';
 import { unixToTime } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * Sunset component
+ * Renders a card with astrological timing for sunrise and sunset.
+ */
 function Sunset() {
     const { data: forecast } = useForecast();
 

@@ -1,3 +1,9 @@
+/**
+ * useChat Hook
+ * Manages the logic for the AI weather assistant, including message history,
+ * API communication with the Gemini endpoint, and persistent storage.
+ */
+
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -5,6 +11,10 @@ import { useForecast } from '@/hooks/useWeatherData';
 import { kelvinToCelsius, unixToTime } from '@/utils/misc';
 import { Message } from '@/types/chat';
 
+/**
+ * Custom hook to manage chatbot state and actions
+ * Provides functions for sending messages, starting new chats, and retrying failed requests.
+ */
 export const useChat = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
@@ -12,7 +22,7 @@ export const useChat = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { data: forecast } = useForecast();
 
-    // Load messages from localStorage
+    // Load messages from localStorage on initialization
     useEffect(() => {
         const savedMessages = localStorage.getItem('chatMessages');
         if (savedMessages) {
@@ -30,13 +40,17 @@ export const useChat = () => {
         }
     }, []);
 
-    // Save messages to localStorage
+    // Persist messages to localStorage whenever they change
     useEffect(() => {
         if (messages.length > 0) {
             localStorage.setItem('chatMessages', JSON.stringify(messages));
         }
     }, [messages]);
 
+    /**
+     * Sends the current input value to the chat API
+     * Includes current weather context to allow the AI to answer location-specific questions.
+     */
     const handleSendMessage = useCallback(async () => {
         if (!inputValue.trim() || isLoading || inputValue.length > 300) return;
 
@@ -52,6 +66,7 @@ export const useChat = () => {
         setIsLoading(true);
 
         try {
+            // Construct contextual weather information for the AI prompt
             const weatherContext = forecast?.name ? `
 Current Weather in ${forecast.name}:
 - Temperature: ${forecast.main?.temp ? kelvinToCelsius(forecast.main.temp) + '°C' : 'N/A'}
@@ -113,11 +128,17 @@ ${forecast.dt && forecast.timezone ? `- Current Time: ${unixToTime(forecast.dt, 
         }
     }, [inputValue, isLoading, forecast]);
 
+    /**
+     * Resets the message history and clears local storage
+     */
     const handleNewChat = useCallback(() => {
         setMessages([]);
         localStorage.removeItem('chatMessages');
     }, []);
 
+    /**
+     * Populates the input field with the last user message for easy resending
+     */
     const handleRetry = useCallback(() => {
         const lastUserMessage = [...messages].reverse().find(m => m.role === 'user');
         if (lastUserMessage) {

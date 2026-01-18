@@ -1,4 +1,11 @@
+/**
+ * 5-Day Forecast Component
+ * Summarizes the next 5 days of weather by processing 3-hourly data points.
+ * Displays daily min/max temperatures and a visual temperature range bar.
+ */
+
 "use client"
+
 import { useFiveDayForecast } from '@/hooks/useWeatherData';
 import { calender } from '@/utils/Icons'
 import { Skeleton } from '@/components/ui/skeleton';
@@ -6,6 +13,10 @@ import { useUnit } from '@/context/UnitContext';
 import { processDailyData } from '@/utils/weatherUtils';
 import { DailyForecastItem } from './DailyForecastItem';
 
+/**
+ * FiveDayForecast component
+ * Groups 3-hourly forecast data into daily segments and renders individual forecast items.
+ */
 function FiveDayForecast() {
     const { data: fiveDayForecast } = useFiveDayForecast();
     const { unit } = useUnit();
@@ -36,6 +47,7 @@ function FiveDayForecast() {
 
     const dailyForecasts = [];
 
+    // Grouping logic: Data is provided in 3-hour increments (8 points per day)
     for (let i = 0; i < 40; i += 8) {
         const dailyData = list.slice(i, i + 8);
         dailyForecasts.push(processDailyData(dailyData));

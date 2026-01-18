@@ -1,9 +1,19 @@
+/**
+ * Visibility Component
+ * Displays the current horizontal visibility in kilometers.
+ * Provides descriptive categories (e.g., Excellent, Poor) based on distance.
+ */
+
 "use client";
 
 import { useForecast } from '@/hooks/useWeatherData';
 import { eye } from '@/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * Visibility component
+ * Renders a card displaying visibility range and safety status.
+ */
 function Visibility() {
     const { data: forecast } = useForecast();
 
@@ -21,6 +31,9 @@ function Visibility() {
 
     const { visibility } = forecast;
 
+    /**
+     * Maps visibility distance (in meters) to descriptive categories and styling
+     */
     const getVisibilityInfo = (visibility: number) => {
         const km = visibility / 1000;
 

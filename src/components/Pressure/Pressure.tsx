@@ -1,9 +1,19 @@
+/**
+ * Pressure Component
+ * Displays the current atmospheric pressure in hPa and provides context
+ * on what the pressure level implies for upcoming weather conditions.
+ */
+
 "use client";
 
 import { useForecast } from '@/hooks/useWeatherData';
 import { gauge } from '@/utils/Icons';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * Pressure component
+ * Renders a card displaying barometric pressure and descriptive meteorological insights.
+ */
 function Pressure() {
     const { data: forecast } = useForecast();
 
@@ -21,6 +31,9 @@ function Pressure() {
 
     const { pressure } = forecast?.main;
 
+    /**
+     * Determines descriptive text and color styling based on atmospheric pressure
+     */
     const getPressureInfo = (pressure: number) => {
         if (pressure < 980) {
             return {

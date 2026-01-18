@@ -1,4 +1,11 @@
+/**
+ * Daily Forecast Component (Three-Hourly)
+ * Displays a scrollable carousel of weather predictions for the current day.
+ * Each item shows the time, a representative icon, and the predicted temperature.
+ */
+
 "use client"
+
 import { ForecastItem } from '@/types/weather';
 import { useForecast, useFiveDayForecast } from '@/hooks/useWeatherData';
 import { getWeatherIcon } from '@/utils/weatherUtils';
@@ -8,6 +15,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { format, parseISO } from 'date-fns';
 import { useUnit } from '@/context/UnitContext';
 
+/**
+ * DailyForecast component
+ * Filters the 5-day forecast to show only today's data in a carousel format.
+ */
 function DailyForecast() {
     const { data: forecast } = useForecast();
     const { unit } = useUnit();

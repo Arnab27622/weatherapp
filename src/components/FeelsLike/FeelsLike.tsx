@@ -1,3 +1,9 @@
+/**
+ * Feels Like Component
+ * Displays the "perceived" temperature and provides context on why it might differ
+ * from the actual temperature (e.g., significantly colder or warmer).
+ */
+
 "use client";
 
 import { useForecast } from '@/hooks/useWeatherData';
@@ -6,6 +12,10 @@ import { convertTemperature } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUnit } from '@/context/UnitContext';
 
+/**
+ * FeelsLike component
+ * Calculates the difference between perceived and actual temperature to provide descriptive feedback.
+ */
 function FeelsLike() {
     const { data: forecast } = useForecast();
     const { unit } = useUnit();
@@ -24,6 +34,9 @@ function FeelsLike() {
 
     const { feels_like, temp_min, temp_max } = forecast?.main;
 
+    /**
+     * Determines the descriptive text based on the difference between feels_like and average temp
+     */
     const feelsLikeText = (feelsLike: number, tempMin: number, tempMax: number) => {
         const avgTemp = (tempMax + tempMin) / 2;
         const diff = feelsLike - avgTemp;

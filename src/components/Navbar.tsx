@@ -1,3 +1,9 @@
+/**
+ * Navigation Bar Component
+ * Displays the application logo, search dialog, unit toggle (°C/°F), and theme switcher.
+ * Uses a glassmorphism effect and remains sticky at the top of the viewport.
+ */
+
 "use client"
 
 import ThemeDropdown from './ThemeDropdown/ThemeDropdown'
@@ -7,6 +13,10 @@ import Image from 'next/image'
 import { useUnit } from '@/context/UnitContext'
 import { Button } from './ui/button'
 
+/**
+ * Navbar component
+ * Manages branding visibility and global action items like search and unit toggling.
+ */
 function Navbar() {
   const { theme } = useTheme()
   const { unit, toggleUnit } = useUnit()

@@ -1,7 +1,17 @@
+/**
+ * API Route: /api/weather
+ * Proxy for OpenWeatherMap Current Weather API to keep API keys secure on the server.
+ */
+
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/utils/logger";
 
+/**
+ * Handles GET requests to fetch current weather data
+ * @param req - The incoming NextRequest containing 'lat' and 'lon' search parameters
+ * @returns NextResponse with weather data or error message
+ */
 export async function GET(req: NextRequest) {
     try {
         const searchParams = req.nextUrl.searchParams;

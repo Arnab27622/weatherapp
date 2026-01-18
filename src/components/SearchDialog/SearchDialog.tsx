@@ -1,3 +1,9 @@
+/**
+ * Search Dialog Component
+ * Provides a modal interface for searching cities worldwide.
+ * Features geocoding search results, persistent search history, and a loading state.
+ */
+
 "use client";
 
 import React, {
@@ -19,6 +25,10 @@ import { GeocodedLocation } from "@/types/weather";
 import { SearchResultsList } from "./SearchResultsList";
 import { SearchHistoryList } from "./SearchHistoryList";
 
+/**
+ * SearchDialog component
+ * Manages the search input lifecycle, including fetching results and handling history interactions.
+ */
 const SearchDialog: React.FC = () => {
     const {
         geoCodedList,
@@ -34,8 +44,13 @@ const SearchDialog: React.FC = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number>(0);
     const [open, setOpen] = useState<boolean>(false);
 
+    // Reset hovered index when search results change
     useEffect(() => setHoveredIndex(0), [geoCodedList, inputValue]);
 
+    /**
+     * Handles selection of a city from results or history
+     * Closes the dialog and updates the active city.
+     */
     const handleCitySelection = useCallback(
         (item: GeocodedLocation) => {
             handleCitySelectionBase(item);
@@ -46,6 +61,9 @@ const SearchDialog: React.FC = () => {
 
     const onInputChange = (value: string) => handleInput(value);
 
+    /**
+     * Removes an item from the persistent search history
+     */
     const handleDeleteHistoryItem = (
         e: MouseEvent<HTMLButtonElement>,
         id: string

@@ -1,3 +1,9 @@
+/**
+ * UV Progress Component
+ * A specialized progress bar used specifically for the UV Index display.
+ * Features a circular indicator that slides across the track based on the UV level.
+ */
+
 "use client"
 
 import * as React from "react"
@@ -5,6 +11,10 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * UvProgress component
+ * Extends Radix UI's Progress primitive with custom styling for the weather dashboard.
+ */
 function UvProgress({
     className,
     value,

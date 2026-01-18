@@ -1,3 +1,9 @@
+/**
+ * Component that renders the grid of weather information cards.
+ * Displays various metrics like air pollution, sunset, wind, UV index, etc.
+ * Uses a responsive grid layout.
+ */
+
 "use client";
 
 import AirPollution from "@/components/AirPollution/AirPollution";
@@ -11,6 +17,10 @@ import Humidity from "@/components/Humidity/Humidity";
 import Visibility from "@/components/Visibility/Visibility";
 import Pressure from "@/components/Pressure/Pressure";
 
+/**
+ * WeatherGrid component
+ * @returns A responsive grid containing all meteorological tracking components
+ */
 const WeatherGrid = () => {
     return (
         <div className="instruments grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

@@ -1,3 +1,9 @@
+/**
+ * Home Page (Root Route)
+ * Assembles the main dashboard layout with navigation, weather details, 
+ * forecast, cities list, and the AI chatbot.
+ */
+
 import Navbar from "@/components/Navbar";
 import Temperature from "@/components/Temperature/Temperature";
 import { LocationProvider } from "@/context/LocationContext";
@@ -8,7 +14,10 @@ import FiveDayForecast from "@/components/FiveDayForecast/FiveDayForecast";
 import ChatBot from "@/components/ChatBot/ChatBot";
 import Footer from "@/components/Footer/Footer";
 
-
+/**
+ * Main application dashboard
+ * Wraps the content in Location and Search providers to manage global state.
+ */
 export default function Home() {
   return (
     <LocationProvider>

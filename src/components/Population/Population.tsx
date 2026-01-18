@@ -1,3 +1,9 @@
+/**
+ * Population Component
+ * Displays the estimated population of the selected city.
+ * Uses formatted numbers (e.g., 1.2M) for readability.
+ */
+
 "use client"
 
 import { useFiveDayForecast } from '@/hooks/useWeatherData';
@@ -5,6 +11,10 @@ import { people } from '@/utils/Icons';
 import { formatNumber } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 
+/**
+ * Population component
+ * Renders a card with population statistics for the current city.
+ */
 function Population() {
     const { data: fiveDayForecast } = useFiveDayForecast();
     if (!fiveDayForecast || !fiveDayForecast.city) {

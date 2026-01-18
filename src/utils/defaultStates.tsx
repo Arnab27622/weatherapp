@@ -1,3 +1,7 @@
+/**
+ * Default list of cities used for initial search suggestions and fallback options.
+ * Each entry contains the city name, country code, state name, and geographic coordinates.
+ */
 const defaultStates = [
   {
     name: "Kolkata",
