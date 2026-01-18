@@ -1,13 +1,6 @@
 import { GeocodedLocation } from "@/types/weather";
+import { SearchResultsListProps } from "@/types/search";
 import { Search } from "lucide-react";
-
-interface SearchResultsListProps {
-    geoCodedList?: GeocodedLocation[];
-    hoveredIndex: number;
-    setHoveredIndex: (index: number) => void;
-    handleCitySelection: (item: GeocodedLocation) => void;
-    inputValue: string;
-}
 
 export const SearchResultsList = ({
     geoCodedList,

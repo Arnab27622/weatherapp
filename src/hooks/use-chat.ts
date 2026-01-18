@@ -3,13 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useForecast } from '@/hooks/useWeatherData';
 import { kelvinToCelsius, unixToTime } from '@/utils/misc';
-
-export type Message = {
-    id: string;
-    content: string;
-    role: 'user' | 'assistant';
-    timestamp: Date;
-};
+import { Message } from '@/types/chat';
 
 export const useChat = () => {
     const [isOpen, setIsOpen] = useState(false);

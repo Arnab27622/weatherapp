@@ -1,4 +1,6 @@
-export const airQualityIndexText = [
+import { AirQualityIndexItem } from "@/types/weather";
+
+export const airQualityIndexText: AirQualityIndexItem[] = [
     {
         rating: 10,
         description: "excellent",

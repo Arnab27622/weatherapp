@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react'
 import { Mapbox } from '../Mapbox/MapboxWrapper';
 import defaultStates from '@/utils/defaultStates';
 import { useLocation } from '@/context/LocationContext';

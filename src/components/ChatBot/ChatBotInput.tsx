@@ -1,18 +1,10 @@
 "use client";
 
-import React from 'react';
+import { FC } from 'react';
 import { motion } from 'framer-motion';
+import { ChatBotInputProps } from '@/types/chat';
 
-interface ChatBotInputProps {
-    inputValue: string;
-    setInputValue: (value: string) => void;
-    isLoading: boolean;
-    isDark: boolean;
-    onSendMessage: () => void;
-    inputRef: React.RefObject<HTMLInputElement | null>;
-}
-
-const ChatBotInput: React.FC<ChatBotInputProps> = ({
+const ChatBotInput: FC<ChatBotInputProps> = ({
     inputValue,
     setInputValue,
     isLoading,

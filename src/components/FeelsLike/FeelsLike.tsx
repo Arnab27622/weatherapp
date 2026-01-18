@@ -4,7 +4,6 @@ import { useForecast } from '@/hooks/useWeatherData';
 import { thermometer } from '@/utils/Icons';
 import { convertTemperature } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 import { useUnit } from '@/context/UnitContext';
 
 function FeelsLike() {

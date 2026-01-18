@@ -3,11 +3,7 @@
  * Provides structured logging with different severity levels
  */
 
-type LogLevel = 'info' | 'warn' | 'error' | 'debug';
-
-interface LogContext {
-    [key: string]: unknown;
-}
+import { LogLevel, LogContext } from "@/types/logger";
 
 class Logger {
     private isDevelopment = process.env.NODE_ENV === 'development';

@@ -1,14 +1,9 @@
 "use client";
 
-import React from 'react';
+import { FC } from 'react';
+import { ChatBotHeaderProps } from '@/types/chat';
 
-interface ChatBotHeaderProps {
-    isDark: boolean;
-    onNewChat: () => void;
-    onClose: () => void;
-}
-
-const ChatBotHeader: React.FC<ChatBotHeaderProps> = ({ isDark, onNewChat, onClose }) => {
+const ChatBotHeader: FC<ChatBotHeaderProps> = ({ isDark, onNewChat, onClose }) => {
     return (
         <div className={`p-3 flex justify-between items-center ${isDark
             ? 'bg-linear-to-r from-blue-700 to-indigo-800'

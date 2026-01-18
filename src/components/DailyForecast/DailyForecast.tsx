@@ -6,7 +6,6 @@ import { convertTemperature } from '@/utils/misc';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format, parseISO } from 'date-fns';
-import React from 'react'
 import { useUnit } from '@/context/UnitContext';
 
 function DailyForecast() {

@@ -7,8 +7,6 @@ import {
 import { getWeatherIcon } from '@/utils/weatherUtils';
 import { convertTemperature } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
-import { format } from 'date-fns';
-import { useEffect, useState } from 'react'
 import { useUnit } from '@/context/UnitContext';
 import { useCityTime } from '@/hooks/useCityTime';
 

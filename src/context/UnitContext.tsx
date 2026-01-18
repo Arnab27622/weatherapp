@@ -1,17 +1,11 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-
-type Unit = "metric" | "imperial";
-
-interface UnitContextProps {
-    unit: Unit;
-    toggleUnit: () => void;
-}
+import { createContext, useContext, useState, useEffect } from "react";
+import { Unit, UnitContextProps, ProviderProps } from "@/types/context";
 
 const UnitContext = createContext<UnitContextProps | undefined>(undefined);
 
-export const UnitProvider = ({ children }: { children: React.ReactNode }) => {
+export const UnitProvider = ({ children }: ProviderProps) => {
     const [unit, setUnit] = useState<Unit>("metric");
 
     useEffect(() => {

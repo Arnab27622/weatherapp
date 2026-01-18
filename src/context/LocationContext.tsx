@@ -1,15 +1,11 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect } from "react"
-
-interface LocationContextProps {
-    activeCityCoords: number[]
-    setActiveCityCoords: React.Dispatch<React.SetStateAction<number[]>>
-}
+import { createContext, useContext, useState, useEffect } from "react"
+import { LocationContextProps, ProviderProps } from "@/types/context"
 
 const LocationContext = createContext<LocationContextProps | undefined>(undefined)
 
-export const LocationProvider = ({ children }: { children: React.ReactNode }) => {
+export const LocationProvider = ({ children }: ProviderProps) => {
     const [activeCityCoords, setActiveCityCoords] = useState<number[]>([22.5697, 88.3697]) // Default Kolkata
 
     useEffect(() => {

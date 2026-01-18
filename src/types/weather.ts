@@ -110,3 +110,9 @@ export interface GeocodedLocation {
     country: string;
     state?: string;
 }
+
+export interface AirQualityIndexItem {
+    rating: number;
+    description: string;
+    color: string;
+}

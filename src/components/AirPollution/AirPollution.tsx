@@ -5,7 +5,6 @@ import { thermo } from '@/utils/Icons';
 import { airQualityIndexText } from '@/constants/config';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
-import React from 'react'
 
 function AirPollution() {
     const { data: airQuality } = useAirQuality();

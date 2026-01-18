@@ -1,5 +1,4 @@
 "use client"
-import { ForecastItem } from '@/types/weather';
 import { useFiveDayForecast } from '@/hooks/useWeatherData';
 import { calender } from '@/utils/Icons'
 import { Skeleton } from '@/components/ui/skeleton';

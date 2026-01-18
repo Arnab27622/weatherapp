@@ -1,19 +1,11 @@
 "use client";
 
-import React from 'react';
+import { FC } from 'react';
 import { motion } from 'framer-motion';
 import MessageBubble from './MessageBubble';
-import { Message } from '@/hooks/use-chat';
+import { Message, ChatBotMessagesProps } from '@/types/chat';
 
-interface ChatBotMessagesProps {
-    messages: Message[];
-    isLoading: boolean;
-    isDark: boolean;
-    messagesEndRef: React.RefObject<HTMLDivElement | null>;
-    onRetry: () => void;
-}
-
-const ChatBotMessages: React.FC<ChatBotMessagesProps> = ({
+const ChatBotMessages: FC<ChatBotMessagesProps> = ({
     messages,
     isLoading,
     isDark,

@@ -1,17 +1,7 @@
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
-
-type MessageBubbleProps = {
-    message: {
-        id: string;
-        content: string;
-        role: 'user' | 'assistant';
-        timestamp: Date;
-    };
-    isLoading?: boolean;
-    isDark?: boolean;
-};
+import { useState } from 'react';
+import { MessageBubbleProps } from '@/types/chat';
 
 const MessageBubble = ({ message, isLoading = false, isDark = true }: MessageBubbleProps) => {
     const isUser = message.role === 'user';
@@ -131,11 +121,11 @@ const MessageBubble = ({ message, isLoading = false, isDark = true }: MessageBub
         >
             <div className={`max-w-[90%] rounded-xl px-3 py-2 relative ${isUser
                 ? isDark
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none'
-                    : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-br-none'
+                    ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-br-none'
+                    : 'bg-linear-to-r from-blue-500 to-indigo-500 text-white rounded-br-none'
                 : isDark
-                    ? 'bg-gradient-to-br from-gray-700 to-gray-800 text-gray-100 rounded-bl-none'
-                    : 'bg-gradient-to-br from-slate-100 to-slate-200 text-slate-800 rounded-bl-none'
+                    ? 'bg-linear-to-br from-gray-700 to-gray-800 text-gray-100 rounded-bl-none'
+                    : 'bg-linear-to-br from-slate-100 to-slate-200 text-slate-800 rounded-bl-none'
                 } shadow-sm`}>
 
                 {!isLoading && !isUser && (
@@ -158,7 +148,7 @@ const MessageBubble = ({ message, isLoading = false, isDark = true }: MessageBub
                         <div className="text-sm leading-relaxed">
                             {formatContent(message.content)}
                         </div>
-                        
+
                         {/* Bottom container for timestamp and copy button */}
                         <div className="flex items-center justify-between mt-1">
                             {/* Timestamp aligned to the left/right depending on message type */}

@@ -1,27 +1,19 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { fetchGeoCodedList as fetchGeoCodedListAPI } from "@/services/weatherService"
 import defaultStates from "@/utils/defaultStates"
 
 import { GeocodedLocation } from "@/types/weather"
+import { SearchContextProps, ProviderProps } from "@/types/context"
 
 import { useLocation } from "./LocationContext"
 import { useSearchHistory } from "@/hooks/use-search-history"
 
-interface SearchContextProps {
-    inputValue: string
-    setInputValue: React.Dispatch<React.SetStateAction<string>>
-    handleInput: (value: string) => void
-    geoCodedList: GeocodedLocation[]
-    isSearchLoading: boolean
-    handleCitySelection: (item: GeocodedLocation) => void
-}
-
 const SearchContext = createContext<SearchContextProps | undefined>(undefined)
 
-export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
+export const SearchProvider = ({ children }: ProviderProps) => {
     const [inputValue, setInputValue] = useState("")
     const [debouncedSearch, setDebouncedSearch] = useState("")
     const { setActiveCityCoords } = useLocation()

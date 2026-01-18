@@ -1,12 +1,5 @@
 import { convertTemperature } from "@/utils/misc";
-import React from "react";
-
-interface DailyForecastItemProps {
-    day: string;
-    minTemp: number;
-    maxTemp: number;
-    unit: "metric" | "imperial";
-}
+import { DailyForecastItemProps } from "@/types/components";
 
 export const DailyForecastItem = ({
     day,

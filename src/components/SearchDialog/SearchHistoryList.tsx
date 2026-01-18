@@ -1,20 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { SearchHistoryItem } from "@/hooks/use-search-history";
+import { SearchHistoryListProps } from "@/types/search";
 import { Search, Trash2 } from "lucide-react";
-import { MouseEvent } from "react";
-import { GeocodedLocation } from "@/types/weather";
-
-interface SearchHistoryListProps {
-    history: SearchHistoryItem[];
-    hoveredIndex: number;
-    setHoveredIndex: (index: number) => void;
-    handleCitySelection: (item: GeocodedLocation) => void;
-    handleDeleteHistoryItem: (
-        e: MouseEvent<HTMLButtonElement>,
-        id: string
-    ) => void;
-    clearHistory: () => void;
-}
 
 export const SearchHistoryList = ({
     history,

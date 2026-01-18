@@ -1,15 +1,5 @@
 import { useLocalStorage } from "./use-local-storage";
-
-export interface SearchHistoryItem {
-  id: string;
-  query: string;
-  lat: number;
-  lon: number;
-  name: string;
-  country: string;
-  state?: string;
-  searchedAt: number;
-}
+import { SearchHistoryItem } from "@/types/search";
 
 export function useSearchHistory() {
   const [history, setHistory] = useLocalStorage<SearchHistoryItem[]>(
