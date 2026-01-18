@@ -7,12 +7,16 @@ import defaultStates from "@/utils/defaultStates"
 
 import { GeocodedLocation } from "@/types/weather"
 
+import { useLocation } from "./LocationContext"
+import { useSearchHistory } from "@/hooks/use-search-history"
+
 interface SearchContextProps {
     inputValue: string
     setInputValue: React.Dispatch<React.SetStateAction<string>>
     handleInput: (value: string) => void
     geoCodedList: GeocodedLocation[]
     isSearchLoading: boolean
+    handleCitySelection: (item: GeocodedLocation) => void
 }
 
 const SearchContext = createContext<SearchContextProps | undefined>(undefined)
@@ -20,6 +24,8 @@ const SearchContext = createContext<SearchContextProps | undefined>(undefined)
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     const [inputValue, setInputValue] = useState("")
     const [debouncedSearch, setDebouncedSearch] = useState("")
+    const { setActiveCityCoords } = useLocation()
+    const { addToHistory } = useSearchHistory()
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -42,6 +48,19 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         setInputValue(value)
     }
 
+    const handleCitySelection = (item: GeocodedLocation) => {
+        setActiveCityCoords([item.lat, item.lon]);
+        setInputValue("");
+        addToHistory({
+            query: inputValue,
+            lat: item.lat,
+            lon: item.lon,
+            name: item.name,
+            country: item.country,
+            state: item.state,
+        });
+    };
+
     const isDebouncing = inputValue !== debouncedSearch
     const isSearchLoading = isSearchFetching || isDebouncing
 
@@ -55,7 +74,8 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
             setInputValue,
             handleInput,
             geoCodedList,
-            isSearchLoading
+            isSearchLoading,
+            handleCitySelection
         }}>
             {children}
         </SearchContext.Provider>

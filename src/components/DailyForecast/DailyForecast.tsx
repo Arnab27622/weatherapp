@@ -1,8 +1,7 @@
 "use client"
-
 import { ForecastItem } from '@/types/weather';
 import { useForecast, useFiveDayForecast } from '@/hooks/useWeatherData';
-import { clearSky, cloudFog, cloudLightning, cloudy, drizzleIcon, rain, snow } from '@/utils/Icons';
+import { getWeatherIcon } from '@/utils/weatherUtils';
 import { convertTemperature } from '@/utils/misc';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -45,27 +44,6 @@ function DailyForecast() {
         return <Skeleton className='h-42 w-full col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2' />
     }
 
-    const getIcon = (weatherMain: string) => {
-        switch (weatherMain) {
-            case "Drizzle":
-                return drizzleIcon;
-            case "Rain":
-                return rain;
-            case "Snow":
-                return snow;
-            case "Clear":
-                return clearSky;
-            case "Atmosphere":
-                return cloudFog;
-            case "Clouds":
-                return cloudy;
-            case "Thunderstorm":
-                return cloudLightning;
-            default:
-                return clearSky;
-        }
-    };
-
     return (
         <div className='pt-5 px-10 h-42 border rounded-lg flex flex-col gap-8 dark:bg-dark-grey shadow-sm dark:shadow-none col-span-full sm-2:col-span-2 md:col-span-2 xl:col-span-2'>
             <div className="h-full flex gap-10 overflow-hidden">
@@ -75,7 +53,7 @@ function DailyForecast() {
                             <CarouselContent>
                                 {todaysForecast.map((forecastItem: ForecastItem) => {
                                     const time = format(parseISO(forecastItem.dt_txt), "HH:mm");
-                                    const icon = getIcon(forecastItem.weather[0].main);
+                                    const icon = getWeatherIcon(forecastItem.weather[0].main);
 
                                     return (
                                         <CarouselItem className='flex flex-col gap-4 basis-34 cursor-grab' key={forecastItem.dt_txt}>

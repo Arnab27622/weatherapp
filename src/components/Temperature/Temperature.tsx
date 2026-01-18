@@ -2,46 +2,22 @@
 
 import { useForecast } from '@/hooks/useWeatherData'
 import {
-    clearSky,
-    cloudy,
-    drizzleIcon,
-    cloudLightning,
-    rain,
-    snow,
-    cloudFog,
     navigation
 } from '@/utils/Icons';
+import { getWeatherIcon } from '@/utils/weatherUtils';
 import { convertTemperature } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUnit } from '@/context/UnitContext';
+import { useCityTime } from '@/hooks/useCityTime';
 
 function Temperature() {
     const { data: forecast } = useForecast();
     const { unit } = useUnit();
     const { main, timezone, name, weather } = forecast || {};
 
-    const [localTime, setLocalTime] = useState<string>("");
-    const [currentDay, setCurrentDay] = useState<string>("");
-
-    useEffect(() => {
-        if (!timezone) return;
-
-        const updateTime = () => {
-            // Get current time with target timezone offset
-            const date = new Date();
-            const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
-            const cityTime = new Date(utcTime + (timezone * 1000));
-
-            setLocalTime(format(cityTime, "HH:mm:ss"));
-            setCurrentDay(format(cityTime, "eeee"));
-        };
-
-        updateTime();
-        const interval = setInterval(updateTime, 1000);
-        return () => clearInterval(interval);
-    }, [timezone]);
+    const { localTime, currentDay } = useCityTime(timezone);
 
     if (!forecast || !weather || !main || !main.temp || !main.temp_min || !main.temp_max) {
         return (
@@ -75,27 +51,6 @@ function Temperature() {
 
     const { main: weatherMain, description } = weather[0];
 
-    const getIcon = () => {
-        switch (weatherMain) {
-            case "Drizzle":
-                return drizzleIcon;
-            case "Rain":
-                return rain;
-            case "Snow":
-                return snow;
-            case "Clear":
-                return clearSky;
-            case "Atmosphere":
-                return cloudFog;
-            case "Clouds":
-                return cloudy;
-            case "Thunderstorm":
-                return cloudLightning;
-            default:
-                return clearSky;
-        }
-    };
-
     return (
         <div className="
                 pt-7 pb-6 px-4
@@ -116,7 +71,7 @@ function Temperature() {
 
             <div>
                 <div>
-                    <span className="text-2xl">{getIcon()}</span>
+                    <span className="text-2xl">{getWeatherIcon(weatherMain)}</span>
                     <p className="pt-2 capitalize text-lg font-medium text-blue-600 dark:text-blue-400">{description}</p>
                 </div>
                 <p className='flex items-center gap-4'>

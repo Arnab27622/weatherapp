@@ -1,11 +1,11 @@
 "use client"
-
 import { ForecastItem } from '@/types/weather';
 import { useFiveDayForecast } from '@/hooks/useWeatherData';
 import { calender } from '@/utils/Icons'
-import { convertTemperature, unixToDay } from '@/utils/misc';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUnit } from '@/context/UnitContext';
+import { processDailyData } from '@/utils/weatherUtils';
+import { DailyForecastItem } from './DailyForecastItem';
 
 function FiveDayForecast() {
     const { data: fiveDayForecast } = useFiveDayForecast();
@@ -35,30 +35,11 @@ function FiveDayForecast() {
         )
     }
 
-    const processData = (dailyData: ForecastItem[]) => {
-        let minTemp = Number.MAX_VALUE;
-        let maxTemp = Number.MIN_VALUE;
-
-        dailyData.forEach((day: ForecastItem) => {
-            if (day.main.temp_min < minTemp) {
-                minTemp = day.main.temp_min;
-            }
-            if (day.main.temp_max > maxTemp) {
-                maxTemp = day.main.temp_max;
-            }
-        });
-
-        return {
-            day: unixToDay(dailyData[0].dt),
-            minTemp, maxTemp
-        };
-    };
-
     const dailyForecasts = [];
 
     for (let i = 0; i < 40; i += 8) {
         const dailyData = list.slice(i, i + 8);
-        dailyForecasts.push(processData(dailyData));
+        dailyForecasts.push(processDailyData(dailyData));
     }
 
     return (
@@ -73,23 +54,15 @@ function FiveDayForecast() {
 
                 <div className="forecast-list pt-3">{
                     dailyForecasts.map((day, index) => {
-                        return <div key={index} className='daily-forecast py-4 flex flex-col justify-evenly border-b-2'>
-                            <p className='text-2xl min-w-14 text-slate-700 dark:text-slate-300'>{day.day}</p>
-                            <p className='text-sm flex justify-between'>
-                                <span className='text-blue-500'>(Low)</span>
-                                <span className='text-red-500'>(High)</span>
-                            </p>
-
-                            <div className='flex flex-1 items-center justify-between gap-4'>
-                                <p className="font-bold text-blue-700 dark:text-blue-300">
-                                    {convertTemperature(day.minTemp, unit)}°{unit === 'imperial' ? 'F' : 'C'}
-                                </p>
-                                <div className="temperature flex-1 w-full h-2 rounded-lg"></div>
-                                <p className="font-bold text-orange-700 dark:text-orange-300">
-                                    {convertTemperature(day.maxTemp, unit)}°{unit === 'imperial' ? 'F' : 'C'}
-                                </p>
-                            </div>
-                        </div>
+                        return (
+                            <DailyForecastItem
+                                key={index}
+                                day={day.day}
+                                minTemp={day.minTemp}
+                                maxTemp={day.maxTemp}
+                                unit={unit}
+                            />
+                        );
                     })
                 }</div>
             </div>
